@@ -15,3 +15,5 @@ table_1.latex: table_1.csv
 table_1.csv: render.sh ks.Rmd
 	./render.sh
 
+clean:
+	rm fig_1_watermarked.png fig_1.png ks.latex table_1.latex table_1.csv
