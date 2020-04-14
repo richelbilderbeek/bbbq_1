@@ -1,26 +1,17 @@
-all: view.sh article.pdf
-	./view.sh
+all: fig_1_watermarked.png ks.latex table_1.latex table_1.csv
 
-article.pdf: create.sh article.tex ks/table_1.latex ks/ks.latex ks/fig_1_watermarked.png
-	aspell -t -c article.tex
-	./create.sh
+fig_1_watermarked.png: watermark.jpeg fig_1.png
+	composite -tile -dissolve 5% -gravity center watermark.jpeg fig_1.png fig_1_watermarked.png
 
-ks/fig_1_watermarked.png: ks/watermark.jpeg ks/fig_1.png
-	composite -tile -dissolve 5% -gravity center ks/watermark.jpeg ks/fig_1.png ks/fig_1_watermarked.png
+fig_1.png: render.sh ks.Rmd
+	./render.sh
 
-ks/fig_1.png: ks/render.sh ks/ks.Rmd
-	cd ks; ./render.sh; cd ..
+ks.latex: ks.csv
+	csv2latex ks.csv --nohead > ks.latex
 
-ks/ks.latex: ks/ks.csv
-	csv2latex ks/ks.csv --nohead > ks/ks.latex
+table_1.latex: table_1.csv
+	csv2latex table_1.csv --nohead > table_1.latex
 
-ks/table_1.latex: ks/table_1.csv
-	csv2latex ks/table_1.csv --nohead > ks/table_1.latex
+table_1.csv: render.sh ks.Rmd
+	./render.sh
 
-ks/table_1.csv: ks/render.sh ks/ks.Rmd
-	cd ks; ./render.sh; cd ..
-
-frans: bbbq.zip
-
-bbbq.zip: zip.sh article.pdf
-	./zip.sh
