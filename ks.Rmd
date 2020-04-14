@@ -1,0 +1,153 @@
+---
+title: "Kolmogorov-Smirnov"
+author: Richel J.C. Bilderbeek
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE}
+library(testthat)
+library(tidyr)
+library(ggplot2)
+```
+
+Haplotypes:
+
+```{r}
+get_haplotypes <- function() {
+  c(
+    "HLA-A01-01",
+    "HLA-A02-01",
+    "HLA-A03-01",
+    "HLA-A24-02",
+    "HLA-A26-01",
+    "HLA-B07-02",
+    "HLA-B08-01",
+    "HLA-B18-01",
+    "HLA-B27-05",
+    "HLA-B39-01",
+    "HLA-B40-02", 
+    "HLA-B58-01",
+    "HLA-B15-01"
+  )
+}
+```
+
+Human samples:
+
+```{r}
+# n: sample size, equals the number of HLA haplotypes
+n <- length(get_haplotypes())
+# f denotes 'fraction', a value between 0.0 and 1.0
+f_human <- rnorm(n = n, mean = 0.053, sd = 0.01)
+f_covid <- rnorm(n = n, mean = runif(n = 1, min = 0.03, max = 0.1), sd = 0.01)
+expect_true(all(f_human > 0.0))
+expect_true(all(f_human < 1.0))
+expect_true(all(f_covid > 0.0))
+expect_true(all(f_covid < 1.0))
+```
+
+Test:
+
+```{r}
+t <- ks.test(x = f_human, y = f_covid)
+print(t)
+```
+
+Stats:
+
+```{r}
+alpha <- 0.05
+if (t$p.value <= alpha) {
+  verdict <- "Reject that the two samples are taken from a same distribution"
+} else {
+  verdict <- "Accept that the two samples are taken from a same distribution"
+}
+print(verdict)
+```
+
+Create tidy table:
+
+```{r}
+df <- tibble::tibble(
+  proteome = rep(c("human", "covid"), each = n),
+  haplotype = rep(get_haplotypes(), time = 2),
+  f = c(f_human, f_covid)
+)
+df$proteome <- as.factor(df$proteome)
+df$haplotype <- as.factor(df$haplotype)
+```
+
+## Stats output
+
+```{r}
+names(t)
+df_t_wide <- data.frame(
+  statistic = t$statistic,
+  p_value = t$p.value,
+  alternative = t$alternative,
+  method = t$method,
+  data_name = t$data.name,
+  alpha = alpha,
+  verdict = verdict
+)
+df_t <- t(df_t_wide)
+values <- df_t[,1]
+param_names <- rownames(df_t)
+df_t <- data.frame(
+  parameter = param_names,
+  value = values
+)
+
+knitr::kable(df_t, row.names = FALSE)
+```
+
+```{r}
+write.csv(df_t, "ks.csv", row.names = FALSE)
+```
+
+## Plot
+
+```{r}
+ggplot(df, aes(x = haplotype, y = f, fill = proteome)) + 
+  scale_fill_manual(values = c("human" = "#ffffff", "covid" = "#cccccc")) +
+  geom_col(position = position_dodge(), color = "#000000") + xlab("HLA haplotype") + 
+  ylab("Epitopes overlapping \nwith transmembrane helix") +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 3)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  geom_hline(yintercept = mean(f_human), lty = "dashed") +
+  geom_hline(yintercept = mean(f_covid), lty = "dotted") +
+  labs(
+    caption = paste0(
+      "Dashed line: average in humans: ", formatC(100.0 * mean(f_human), digits = 2),"%. ",
+      "Dotted line: average in COVID-19: ", formatC(100.0 * mean(f_covid), digits = 2),"%."  
+    )
+  ) + ggsave("fig_1.png", width = 7, height = 7)
+```
+
+## Table
+
+Create wide (untidy) table:
+
+```{r}
+df_wide <- spread(df, proteome, f)
+df_wide$covid <- formatC(100.0 * df_wide$covid, digits = 3)
+df_wide$human <- formatC(100.0 * df_wide$human, digits = 3)
+```
+
+Show table:
+
+```{r}
+knitr::kable(df_wide, caption = "Percentage of MHC-I epitopes overlapping with transmembrane helix")
+```
+
+Save table:
+
+```{r}
+write.csv(df_wide, "table_1.csv", row.names = FALSE)
+```
+
+
