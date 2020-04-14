@@ -1,0 +1,7 @@
+language: r
+dist: bionic
+cache: packages
+
+script:
+  - make
+

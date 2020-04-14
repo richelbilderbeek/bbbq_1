@@ -1,0 +1,24 @@
+Package: bbbq1
+Type: Package
+Title: The Bianchi Bilderbeek And Bogaart Question One
+Version: 0.1
+Authors@R: c(
+  person("Richel", "Bilderbeek", email = "richel@richelbilderbeek.nl", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1107-7049")))
+Author: Richel J.C. Bilderbeek <richel@richelbilderbeek.nl>
+Maintainer: Richel J.C. Bilderbeek <richel@richelbilderbeek.nl>
+Description: In 2017, Frans Bianchi, Johannes Textor and Geert van den 
+  Bogaart published an articles called 'Transmembrane Helices Are an 
+  Overlooked Source of Major Histocompatibility Complex Class I Epitopes'.
+  They supplied the R code to their work at 
+  'https://www.frontiersin.org/articles/10.3389/fimmu.2017.01118/full#supplementary-material'.
+  This package does something similar.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    ggplot2,
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
+
