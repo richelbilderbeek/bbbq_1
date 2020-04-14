@@ -1,5 +1,5 @@
 ---
-title: "Kolmogorov-Smirnov"
+title: "BBBQ 1"
 author: Richel J.C. Bilderbeek
 output: pdf_document
 ---
@@ -84,7 +84,6 @@ df$haplotype <- as.factor(df$haplotype)
 ## Stats output
 
 ```{r}
-names(t)
 df_t_wide <- data.frame(
   statistic = t$statistic,
   p_value = t$p.value,
@@ -92,6 +91,7 @@ df_t_wide <- data.frame(
   method = t$method,
   data_name = t$data.name,
   alpha = alpha,
+  n = length(get_haplotypes()),
   verdict = verdict
 )
 df_t <- t(df_t_wide)
