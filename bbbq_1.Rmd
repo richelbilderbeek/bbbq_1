@@ -106,7 +106,7 @@ knitr::kable(df_t, row.names = FALSE)
 ```
 
 ```{r}
-write.csv(df_t, "ks.csv", row.names = FALSE)
+write.csv(df_t, "bbbq_1_stats.csv", row.names = FALSE)
 ```
 
 ## Plot
@@ -125,7 +125,7 @@ ggplot(df, aes(x = haplotype, y = f, fill = proteome)) +
       "Dashed line: average in humans: ", formatC(100.0 * mean(f_human), digits = 2),"%. ",
       "Dotted line: average in COVID-19: ", formatC(100.0 * mean(f_covid), digits = 2),"%."  
     )
-  ) + ggsave("fig_1.png", width = 7, height = 7)
+  ) + ggsave("fig_bbbq_1.png", width = 7, height = 7)
 ```
 
 ## Table
@@ -147,7 +147,7 @@ knitr::kable(df_wide, caption = "Percentage of MHC-I epitopes overlapping with t
 Save table:
 
 ```{r}
-write.csv(df_wide, "table_1.csv", row.names = FALSE)
+write.csv(df_wide, "bbbq_1_percentages.csv", row.names = FALSE)
 ```
 
 

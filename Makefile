@@ -1,19 +1,20 @@
-all: fig_1_watermarked.png ks.latex table_1.latex table_1.csv
+all: fig_bbbq_1_watermarked.png bbbq_1_percentages.latex bbbq_1_stats.latex
 
-fig_1_watermarked.png: watermark.jpeg fig_1.png
-	composite -tile -dissolve 5% -gravity center watermark.jpeg fig_1.png fig_1_watermarked.png
+fig_bbbq_1_watermarked.png: watermark.jpeg fig_bbbq_1.png
+	composite -tile -dissolve 5% -gravity center watermark.jpeg fig_bbbq_1.png fig_bbbq_1_watermarked.png
 
-fig_1.png: render.sh ks.Rmd
-	./render.sh
+fig_bbbq_1.png: bbbq_1.Rmd
+	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
 
-ks.latex: ks.csv
-	csv2latex ks.csv --nohead > ks.latex
+bbbq_1_percentages.latex: bbbq_1_percentages.csv
+	csv2latex bbbq_1_percentages.csv --nohead > bbbq_1_percentages.latex
 
-table_1.latex: table_1.csv
-	csv2latex table_1.csv --nohead > table_1.latex
 
-table_1.csv: render.sh ks.Rmd
-	./render.sh
+bbbq_1_stats.latex: bbbq_1_stats.csv
+	csv2latex bbbq_1_stats.csv --nohead > bbbq_1_stats.latex
+
+table_1.csv: bbbq_1.Rmd
+	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
 
 clean:
-	rm fig_1_watermarked.png fig_1.png ks.latex table_1.latex table_1.csv
+	rm *.png *.latex *.csv *.pdf
