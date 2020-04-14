@@ -1,7 +1,7 @@
 Package: bbbq1
 Type: Package
 Title: The Bianchi Bilderbeek And Bogaart Question One
-Version: 0.1
+Version: 0.2
 Authors@R: c(
   person("Richel", "Bilderbeek", email = "richel@richelbilderbeek.nl", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1107-7049")))
 Author: Richel J.C. Bilderbeek <richel@richelbilderbeek.nl>
