@@ -137,9 +137,9 @@ ggplot(df, aes(x = haplotype, y = f, fill = proteome)) +
   labs(
     title = "MHC-I and its presentation of TMHs [THIS IS SIMULATED DATA]",
     caption = paste0(
-      "Straight line: average in humans: ", formatC(100.0 * mean(f_human), digits = 2),"%. \n",
-      "Dashed line: average in COVID-19: ", formatC(100.0 * mean(f_covid), digits = 2),"%. \n",
-      "Dotted line: average in Mycoplasma: ", formatC(100.0 * mean(f_myco), digits = 2),"%."  
+      "Straight line: average in humans: ", formatC(100.0 * mean(f_human), digits = 3),"%. \n",
+      "Dashed line: average in COVID-19: ", formatC(100.0 * mean(f_covid), digits = 3),"%. \n",
+      "Dotted line: average in Mycoplasma: ", formatC(100.0 * mean(f_myco), digits = 3),"%."  
     )
   ) + ggsave("fig_bbbq_1.png", width = 7, height = 7)
 ```
