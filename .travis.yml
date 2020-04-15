@@ -2,6 +2,9 @@ language: r
 dist: bionic
 cache: packages
 
+r_github_packages:
+  - richelbilderbeek/bbbq
+
 install:
   # ImageMagick
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo add-apt-repository -y ppa:opencpu/imagemagick; fi
