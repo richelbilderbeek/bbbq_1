@@ -135,7 +135,7 @@ ggplot(df, aes(x = haplotype, y = f, fill = proteome)) +
   geom_hline(yintercept = mean(f_covid), lty = "dashed") +
   geom_hline(yintercept = mean(f_myco), lty = "dotted") +
   labs(
-    title = "SIMULATED DATA",
+    title = "MHC-I and its presentation of TMHs [THIS IS SIMULATED DATA]",
     caption = paste0(
       "Straight line: average in humans: ", formatC(100.0 * mean(f_human), digits = 2),"%. \n",
       "Dashed line: average in COVID-19: ", formatC(100.0 * mean(f_covid), digits = 2),"%. \n",
