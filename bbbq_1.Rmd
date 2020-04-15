@@ -9,42 +9,37 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r, message=FALSE}
+library(bbbq)
 library(testthat)
 library(tidyr)
 library(ggplot2)
 ```
 
-Haplotypes:
+MHC-I haplotypes:
 
 ```{r}
-get_haplotypes <- function() {
-  c(
-    "HLA-A01-01",
-    "HLA-A02-01",
-    "HLA-A03-01",
-    "HLA-A24-02",
-    "HLA-A26-01",
-    "HLA-B07-02",
-    "HLA-B08-01",
-    "HLA-B18-01",
-    "HLA-B27-05",
-    "HLA-B39-01",
-    "HLA-B40-02", 
-    "HLA-B58-01",
-    "HLA-B15-01"
-  )
-}
+print(get_mhc1_haplotypes())
 ```
 
 Human samples:
 
 ```{r}
 # n: sample size, equals the number of HLA haplotypes
-n <- length(get_haplotypes())
+n <- length(get_mhc1_haplotypes())
 # f denotes 'fraction', a value between 0.0 and 1.0
-f_human <- rnorm(n = n, mean = 0.053, sd = 0.0001)
-f_covid <- rnorm(n = n, mean = runif(n = 1, min = 0.03, max = 0.1), sd = 0.01)
-f_myco <- rnorm(n = n, mean = runif(n = 1, min = 0.03, max = 0.1), sd = 0.01)
+f_human <- calc_overlaps(
+  proteome_filename = "human.fasta",
+  haplotypes = get_mhc1_haplotypes()
+)
+f_covid <- calc_overlaps(
+  proteome_filename = "covid.fasta",
+  haplotypes = get_mhc1_haplotypes()
+)
+f_myco <- calc_overlaps(
+  proteome_filename = "myco.fasta",
+  haplotypes = get_mhc1_haplotypes()
+)
+expect_equal(length(f_human), length(get_mhc1_haplotypes()))
 expect_true(all(f_human > 0.0))
 expect_true(all(f_human < 1.0))
 expect_true(all(f_covid > 0.0))
@@ -88,7 +83,7 @@ Create tidy table:
 ```{r}
 df <- tibble::tibble(
   proteome = rep(c("human", "covid", "myco"), each = n),
-  haplotype = rep(get_haplotypes(), time = 3),
+  haplotype = rep(get_mhc1_haplotypes(), time = 3),
   f = c(f_human, f_covid, f_myco)
 )
 df$proteome <- as.factor(df$proteome)
@@ -105,7 +100,7 @@ df_stats_wide <- data.frame(
   method      = c(t_human_covid$method     , t_human_myco$method),
   data_name   = c(t_human_covid$data.name  , t_human_myco$data.name),
   alpha       = alpha,
-  n           = length(get_haplotypes()),
+  n           = length(get_mhc1_haplotypes()),
   verdict     = c(verdict_human_covid      , verdict_human_myco)
 )
 df_stats <- t(df_stats_wide)
