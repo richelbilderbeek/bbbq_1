@@ -6,7 +6,7 @@ all:
 mhc1_test.csv: predict_n_binders_tmh.R
 	Rscript predict_n_binders_tmh.R mhc1 test
 
-mhc2_covid.csv: predict_n_binders_tmh.R 
+mhc2_test.csv: predict_n_binders_tmh.R 
 	Rscript predict_n_binders_tmh.R mhc2 test
 
 # Covid is smallest
