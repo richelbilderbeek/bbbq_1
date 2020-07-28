@@ -84,4 +84,5 @@ test_conversion:
 	mv bbbq_1_stats_covid.latex 2.latex
 
 clean:
-	rm *.png *.latex *.csv *.pdf
+	rm *.png *.latex *.pdf
+	echo "I kept the CSV files, as these are hard to calculate"
