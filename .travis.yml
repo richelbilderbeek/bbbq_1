@@ -2,6 +2,12 @@ language: r
 dist: bionic
 cache: packages
 
+r_packages:
+  - dplyr
+  - magrittr
+  - readr
+  - testthat
+
 r_github_packages:
   - richelbilderbeek/bbbq
 
