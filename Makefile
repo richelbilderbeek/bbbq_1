@@ -1,7 +1,7 @@
 # 'all' must be run on Peregrine. 
 # This means that no figures can be created
 # 
-all: table_1.csv table_2.csv
+all: table_1.latex table_2.latex
 	echo "To create figures, run 'make figures'"
 
 #figures: fig_bbbq_1.png
@@ -47,9 +47,13 @@ table_2.csv: create_table.R \
 
 table_1.latex: table_1.csv
 	python3 -m csv2latex
+	mv LaTeX/table_1.tex table_1.latex
+	rm -rf LaTeX
 
 table_2.latex: table_2.csv
 	python3 -m csv2latex
+	mv LaTeX/table_2.tex table_2.latex
+	rm -rf LaTeX
 
 ################################################################################
 # Create the figures
