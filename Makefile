@@ -1,12 +1,23 @@
-all:
+# 'all' must be run on Peregrine. 
+# This means that no figures can be created
+# 
+all: table_1.csv table_2.csv
+	echo "To create figures, run 'make figures'"
+
+#figures: fig_bbbq_1.png
+#	echo "To create figures, run 'make figures'"
 
 # local: fig_bbbq_1.png bbbq_1_percentages.latex bbbq_1_stats_covid.latex bbbq_1_stats_myco.latex
+
+################################################################################
+# Create the raw data
+################################################################################
 
 # Run tests first
 mhc1_test.csv: predict_n_binders_tmh.R
 	Rscript predict_n_binders_tmh.R mhc1 test
 
-mhc2_test.csv: predict_n_binders_tmh.R 
+mhc2_test.csv: predict_n_binders_tmh.R
 	Rscript predict_n_binders_tmh.R mhc2 test
 
 # Covid is smallest
@@ -16,18 +27,33 @@ mhc1_covid.csv: predict_n_binders_tmh.R
 mhc2_covid.csv: predict_n_binders_tmh.R
 	Rscript predict_n_binders_tmh.R mhc2 covid
 
-# LaTeX
-mhc1_test.latex: mhc1_test.csv
+################################################################################
+# Create the CSV tables
+################################################################################
+
+table_1.csv: create_table.R \
+             mhc1_test.csv \
+             mhc1_covid.csv
+	Rscript create_table.R mhc1
+
+table_2.csv: create_table.R \
+             mhc2_test.csv \
+             mhc2_covid.csv
+	Rscript create_table.R mhc2
+
+################################################################################
+# Create the LaTeX tables
+################################################################################
+
+table_1.latex: table_1.csv
 	python3 -m csv2latex
 
-mhc2_test.latex: mhc2_test.csv
+table_2.latex: table_2.csv
 	python3 -m csv2latex
 
-mhc1_covid.latex: mhc1_covid.csv
-	python3 -m csv2latex
-
-mhc2_covid.latex: mhc2_covid.csv
-	python3 -m csv2latex
+################################################################################
+# Create the figures
+################################################################################
 
 #fig_bbbq_1.png: bbbq_1.Rmd
 #	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
@@ -43,7 +69,7 @@ mhc2_covid.latex: mhc2_covid.csv
 
 #bbbq_1_percentages.csv: bbbq_1.Rmd
 #	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
- 
+
 #table_1.csv: bbbq_1.Rmd
 #	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
 
