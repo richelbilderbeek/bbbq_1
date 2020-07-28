@@ -38,10 +38,26 @@ if (mhc == "mhc1") {
   haplotypes <- get_mhc2_haplotypes()
 }
 
-t <- predict_n_binders_tmh(
-  target_name = target_name,
-  haplotypes = haplotypes,
-  n_aas = 9,
-  percentile = 0.05
-)
+t <- NA
+if (beastier::is_on_travis()) {
+  message("Running on Travis")
+  haplotypes <- sample(haplotypes, size = 2, replace = FALSE)
+  message(
+    "Use two random haplotypes: ", paste(haplotypes, collapse = " ")
+  )
+  t <- predict_n_binders_tmh(
+    target_name = "test",
+    haplotypes = haplotypes,
+    n_aas = 9,
+    percentile = 0.05
+  )
+} else {
+  t <- predict_n_binders_tmh(
+    target_name = target_name,
+    haplotypes = haplotypes,
+    n_aas = 9,
+    percentile = 0.05
+  )
+}
+
 readr::write_csv(t, filename)
