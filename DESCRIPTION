@@ -7,12 +7,5 @@ Description: Three people had multiple questions.
     This package addresses one of these questions.
     It is about something.
 License: GPL-3
-Imports:
-    beastier,
-    dplyr,
-    knitr,
-    magrittr,
-    readr,
-    testthat
 Encoding: UTF-8
 LazyData: true
