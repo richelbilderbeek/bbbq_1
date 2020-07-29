@@ -7,5 +7,7 @@ Description: Three people had multiple questions.
     This package addresses one of these questions.
     It is about something.
 License: GPL-3
+Imports:
+    testthat
 Encoding: UTF-8
 LazyData: true
