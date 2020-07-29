@@ -20,7 +20,7 @@ install:
   #- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install -y libmagick++-dev; fi
   # csv2latex
   - sudo apt install csv2latex
-  - sudo apt install r-cran-testthat
+  - sudo apt install r-cran-testthat r-cran-stringr
 
 after_script:
   - make
