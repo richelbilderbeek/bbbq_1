@@ -22,5 +22,6 @@ install:
   - sudo apt install csv2latex
 
 after_script:
+  - sudo apt install r-cran-testthat
   - make
 
