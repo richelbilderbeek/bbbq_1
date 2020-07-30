@@ -1,0 +1,90 @@
+# Creates a figure from 'table_1.csv' or 'table_2.csv'
+# to show the measured the number of binders and the
+# number of binders that are TMH
+#
+# Usage:
+#
+#  Rscript create_figure.R [MHC]
+#
+#  * [MHC] is either 'mhc1' or 'mhc2'
+#
+#
+#
+#
+library(testthat)
+
+args <- commandArgs(trailingOnly = TRUE)
+if (1 == 2) {
+  args <- "mhc1"
+}
+expect_equal(length(args), 1)
+message("Running with argument '", args[1], "'")
+mhc <- args[1]
+message("mhc: '", mhc, "'")
+expect_equal(4, stringr::str_length(mhc))
+mhc_class <- stringr::str_sub(mhc, 4, 4)
+message("mhc_class: '", mhc_class, "'")
+
+table_filename <- paste0("table_", mhc_class, ".csv")
+message("table_filename: '", table_filename, "'")
+testthat::expect_true(file.exists(table_filename))
+
+t_wide <- readr::read_csv(table_filename)
+
+# Extract the percentages and convert these to fractions
+for (col_index in seq(2, ncol(t_wide))) {
+  # Direct conversion from tibble column to char vector fails
+  text <- as.matrix(t_wide[, col_index])[, 1]
+  percs <- stringr::str_replace(
+    string = text,
+    pattern = "^(.*) \\(.*\\)$",
+    replacement = "\\1"
+  )
+  t_wide[, col_index] <- as.numeric(percs) / 100.0
+}
+t_wide
+
+t_long <- tidyr::pivot_longer(
+  t_wide,
+  !haplotype,
+  names_to = "target",
+  values_to = "f"
+)
+t_long$target <- as.factor(t_long$target)
+t_long
+
+library(ggplot2)
+
+f_human <- mean(t_long$f) * 0.9
+f_covid <- mean(t_long$f) * 1.0
+f_myco  <- mean(t_long$f) * 1.1
+
+p <- ggplot(t_long, aes(x = haplotype, y = f, fill = target)) +
+  scale_fill_manual(values = c("human" = "#ffffff", "covid" = "#cccccc", "myco" = "#999999", "test" = "#999999")) +
+  geom_col(position = position_dodge(), color = "#000000") + xlab("HLA haplotype") +
+  ylab("Epitopes overlapping \nwith transmembrane helix") +
+  scale_y_continuous(
+    labels = scales::percent_format(accuracy = 2),
+    breaks = seq(0.0, 1.0, by = 0.1),
+    minor_breaks = seq(0.0, 1.0, by = 0.1),
+    limits = c(0, 1.0)
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  geom_hline(yintercept = mean(f_human)) +
+  geom_hline(yintercept = mean(f_covid), lty = "dashed") +
+  geom_hline(yintercept = mean(f_myco), lty = "dotted") +
+  labs(
+    title = "% epitopes that overlap with TMH per haplotype",
+    caption = paste0(
+      "Horizontal lines: % 9-mers that overlaps with TMH in ",
+      "humans (straight line, ", formatC(100.0 * mean(f_human), digits = 3),"%), \n",
+      "SARS-Cov2 (dashed line, ", stringr::str_trim(formatC(100.0 * mean(f_covid), digits = 3)),"%), ",
+      "Mycoplasma (dotted line, ", formatC(100.0 * mean(f_myco), digits = 3),"%)"
+    )
+  )
+p
+
+png_filename <- paste0("fig_bbbq_", mhc_class, ".png")
+
+p + ggsave(png_filename, width = 7, height = 7)
+

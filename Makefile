@@ -18,8 +18,9 @@
 all: table_1.latex table_2.latex
 	echo "To create figures, run 'make figures'"
 
-#figures: fig_bbbq_1.png
-#	echo "To create figures, run 'make figures'"
+figures: table_1.csv table_2.csv
+	Rscript create_figure.R mhc1
+	Rscript create_figure.R mhc2
 
 ################################################################################
 # Create the raw data
