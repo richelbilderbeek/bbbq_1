@@ -15,16 +15,11 @@
 #   make peregrine_test
 #
 
-all:
-	echo "Nothing yet"
-
-#all: table_1.latex table_2.latex
-#	echo "To create figures, run 'make figures'"
+all: table_1.latex table_2.latex
+	echo "To create figures, run 'make figures'"
 
 #figures: fig_bbbq_1.png
 #	echo "To create figures, run 'make figures'"
-
-# local: fig_bbbq_1.png bbbq_1_percentages.latex bbbq_1_stats_covid.latex bbbq_1_stats_myco.latex
 
 ################################################################################
 # Create the raw data
