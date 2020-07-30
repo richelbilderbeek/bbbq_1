@@ -31,8 +31,8 @@ all:
 ################################################################################
 
 peregrine_test:
-	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc_test test
-	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc_test test
+	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R test_mhc test
+	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R test_mhc test
 
 peregrine:
 	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc1 test
