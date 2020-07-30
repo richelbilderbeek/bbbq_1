@@ -1,8 +1,25 @@
-# 'all' must be run on Peregrine. 
-# This means that no figures can be created
-# 
-all: table_1.latex table_2.latex
-	echo "To create figures, run 'make figures'"
+#
+# Usage:
+#
+# Create tables and figures, assume real data is there (to
+# create the real data, use 'make peregrine')
+#
+#   make
+#
+# Run the real data on Peregrine
+#
+#   make peregrine
+#
+# Run the tests on Peregrine
+#
+#   make peregrine_test
+#
+
+all:
+	echo "Nothing yet"
+
+#all: table_1.latex table_2.latex
+#	echo "To create figures, run 'make figures'"
 
 #figures: fig_bbbq_1.png
 #	echo "To create figures, run 'make figures'"
@@ -13,19 +30,15 @@ all: table_1.latex table_2.latex
 # Create the raw data
 ################################################################################
 
-# Run tests first
-mhc1_test.csv: predict_n_binders_tmh.R
-	Rscript predict_n_binders_tmh.R mhc1 test
+peregrine_test:
+	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc1 test
+	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc2 test
 
-mhc2_test.csv: predict_n_binders_tmh.R
-	Rscript predict_n_binders_tmh.R mhc2 test
-
-# Covid is smallest
-mhc1_covid.csv: predict_n_binders_tmh.R
-	Rscript predict_n_binders_tmh.R mhc1 covid
-
-mhc2_covid.csv: predict_n_binders_tmh.R
-	Rscript predict_n_binders_tmh.R mhc2 covid
+peregrine:
+	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc1 test
+	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc2 test
+	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc1 covid
+	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc2 covid
 
 ################################################################################
 # Create the CSV tables
