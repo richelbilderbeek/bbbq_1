@@ -39,14 +39,13 @@ peregrine:
 # Create the CSV tables
 ################################################################################
 
-table_1.csv: create_table.R \
-             mhc1_test.csv \
-             mhc1_covid.csv
+
+table_1.csv: create_table.R
+	echo "Assume the data is present. If not, run 'make peregrine'"
 	Rscript create_table.R mhc1
 
-table_2.csv: create_table.R \
-             mhc2_test.csv \
-             mhc2_covid.csv
+table_2.csv: create_table.R
+	echo "Assume the data is present. If not, run 'make peregrine'"
 	Rscript create_table.R mhc2
 
 ################################################################################
