@@ -25,13 +25,7 @@ all: table_1.latex table_2.latex
 # Create the raw data
 ################################################################################
 
-peregrine_test:
-	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R test_mhc1 test
-	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R test_mhc2 test
-
 peregrine:
-	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc1 test
-	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc2 test
 	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc1 covid
 	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc2 covid
 
