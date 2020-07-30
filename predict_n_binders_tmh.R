@@ -35,9 +35,12 @@ if (mhc == "mhc1") {
   haplotypes <- get_mhc1_haplotypes()
 } else if (mhc == "mhc2") {
   haplotypes <- get_mhc2_haplotypes()
+} else if (mhc == "test_mhc1") {
+  haplotypes <- get_mhc1_haplotypes()[1:2]
+} else if (mhc == "test_mhc2") {
+  haplotypes <- get_mhc2_haplotypes()[1:2]
 } else {
-  expect_equal(mhc, "test_mhc")
-  haplotypes <- get_mhc_haplotypes()[c(1, length(get_mhc_haplotypes()))]
+  stop("Unknown mhc: '", mhc, "'")
 }
 
 t <- NA
