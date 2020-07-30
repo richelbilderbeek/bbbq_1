@@ -4,7 +4,7 @@
 #
 #   Rscript predict_n_binders_tmh.R [MHC] [target]
 #
-# * [MHC]: either 'mhc1' or 'mhc2'
+# * [MHC]: either 'mhc1', 'mhc2' or 'test_mhc'
 # * [target]: either 'test', 'covid', 'human', 'myco'
 #
 # For example:
@@ -33,9 +33,11 @@ library(bbbq)
 haplotypes <- NA
 if (mhc == "mhc1") {
   haplotypes <- get_mhc1_haplotypes()
-} else {
-  expect_equal(mhc, "mhc2")
+} else if (mhc == "mhc2") {
   haplotypes <- get_mhc2_haplotypes()
+} else {
+  expect_equal(mhc, "test_mhc")
+  haplotypes <- get_mhc_haplotypes()[c(1, length(get_mhc_haplotypes()))]
 }
 
 t <- NA
