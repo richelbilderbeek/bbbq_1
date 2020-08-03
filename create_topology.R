@@ -29,6 +29,11 @@ testthat::expect_true(file.exists(proteins_filename))
 target_filename <- paste0(target_name, "_topology.csv")
 message("target_filename: '", target_filename, "'")
 
+if (file.exists(target_filename)) {
+  message("'target_filename' already exists. Done!")
+  q()
+}
+
 t_proteins <- readr::read_csv(proteins_filename)
 
 t_topology <- tibble::tibble(

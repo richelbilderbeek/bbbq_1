@@ -37,6 +37,11 @@ expect_true(file.exists(peptides_filename))
 target_filename <- paste0(target_name, "_", haplotype_id, "_ic50s.csv")
 message("target_filename: '", target_filename, "'")
 
+if (file.exists(target_filename)) {
+  message("'target_filename' already exists. Done!")
+  q()
+}
+
 t_haplotypes <- readr::read_csv(haplotypes_filename)
 haplotype <- t_haplotypes$haplotype[t_haplotypes$haplotype_id == haplotype_id]
 
