@@ -42,5 +42,5 @@ for (i in seq_len(nrow(t_proteins))) {
   )
 }
 
-readr::write_csv(t, target_filename)
+readr::write_csv(t_topology, target_filename)
 testthat::expect_true(file.exists(target_filename))
