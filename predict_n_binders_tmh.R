@@ -35,10 +35,6 @@ if (mhc == "mhc1") {
   haplotypes <- get_mhc1_haplotypes()
 } else if (mhc == "mhc2") {
   haplotypes <- get_mhc2_haplotypes()
-} else if (mhc == "test_mhc1") {
-  haplotypes <- get_mhc1_haplotypes()[1:2]
-} else if (mhc == "test_mhc2") {
-  haplotypes <- get_mhc2_haplotypes()[1:2]
 } else {
   stop("Unknown mhc: '", mhc, "'")
 }

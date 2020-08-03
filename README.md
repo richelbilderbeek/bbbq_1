@@ -3,3 +3,112 @@
 The first sub-question of the Bianchi, Bilderbeek and Bogaart Question.
 
  * :lock: [Full article](https://github.com/richelbilderbeek/bbbq_article)
+
+## File structure
+
+I've separated this regarding the two `make` calls.
+
+### 1. `make peregrine`
+
+Run this on Peregrine.
+
+Creates all:
+
+ * `[target]_[haplotype_id]_ic50s.csv`
+ * `[target]_topology.csv`
+
+#### `haplotypes.csv`
+
+`haplotype`  |`mhc_class`|`haplotype_id`
+-------------|-----------|--------------
+HLA-A*01:01  |1          |h1
+HLA-A*02:01  |1          |h2
+...          |...        |...
+HLA-DRB3*0101|2          |h14
+HLA-DRB3*0202|2          |h15
+
+```
+Rscript create_haplotypes.R
+```
+
+#### `[target].fasta`
+
+The proteome
+
+```
+> Somethingine
+AAACCCVVVVAAACCCVVVVAAACCCVVVVAAACCCVVVV
+> Somethingase
+AAACCCVVVVAAACCCVVVVAAACCC
+```
+
+#### `[target]_proteins.csv`
+
+`protein_id`|`protein`   |`sequence`
+------------|------------|------------
+p1          |Somethingine|AAACCCVVVVAAACCCVVVVAAACCCVVVVAAACCCVVVV
+p2          |Somethingase|AAACCCVVVVAAACCCVVVVAAACCC
+
+```
+Rscript create_proteins.R covid
+Rscript create_proteins.R myco
+```
+
+#### `[target]_peptides.csv`
+
+`protein_id`|`start_pos` |`peptide`
+------------|------------|------------
+p1          |1           |AAACCCVVVV
+
+```
+Rscript create_peptides.R covid
+Rscript create_peptides.R myco
+```
+
+#### `[target]_topology.csv`
+
+`protein_id`|`topology`
+------------|----------------------------------------
+p1          |0000000000001111111111111000000000000000
+p2          |00000000000000000000000000
+
+```
+Rscript create_topology.R covid
+Rscript create_topology.R myco
+```
+
+#### `[target]_[haplotype_id]_ic50s.csv`
+
+`protein_id`|`start_pos` |`ic50`
+------------|------------|----------
+p1          |1           |123.456
+p1          |2           |234.567
+
+:warning: Use `sbatch` to generate these files
+
+```
+sbatch Rscript predict_ic50s.R covid h1
+sbatch Rscript predict_ic50s.R covid h2
+...
+sbatch Rscript predict_ic50s.R covid h14
+sbatch Rscript predict_ic50s.R covid h15
+...
+```
+
+### 2. `make results`
+
+Run this locally.
+
+
+### `[target]_coincidence.csv
+
+```
+Rscript predict_n_coincidence_tmh.R
+```
+
+### `[target]_binders.csv
+
+```
+Rscript predict_n_binders_tmh.R
+```
+

@@ -55,32 +55,55 @@ t_long
 
 library(ggplot2)
 
-f_human <- mean(t_long$f) * 0.9
-f_covid <- mean(t_long$f) * 1.0
-f_myco  <- mean(t_long$f) * 1.1
+t_coincidence <- tibble::tibble(
+  target = c("human", "covid", "myco"),
+  n_spots = 1,
+  n_spots_tmh = 0,
+  f = NA
+)
+t_coincidence$f <- mean(t_long$f) * seq(0.9, 1.1, by = 0.1)
 
-p <- ggplot(t_long, aes(x = haplotype, y = f, fill = target)) +
+for (i in seq_along(t_coincidence$target)) {
+  target <- t_coincidence$target[i]
+  filename <- paste0(target, "_coincidence.csv")
+  if (!file.exists(filename)) next()
+  this_t <- readr::read_csv(filename)
+  t_coincidence$n_spots[i] <- this_t$n_spots
+  t_coincidence$n_spots_tmh[i] <- this_t$n_spots_tmh
+  t_coincidence$f[i] <- this_t$n_spots_tmh / this_t$n_spots
+}
+
+f_human <- t_coincidence$f[t_coincidence$target == "human"]
+f_covid <- t_coincidence$f[t_coincidence$target == "covid"]
+f_myco <- t_coincidence$f[t_coincidence$target == "myco"]
+
+t_coincidence
+
+
+caption_text <- paste0(
+  "Horizontal lines: % 9-mers that overlaps with TMH in ",
+  #"humans (straight line, ", formatC(100.0 * mean(f_human), digits = 3),"%), \n",
+  "SARS-Cov2 (dashed line, ", stringr::str_trim(formatC(100.0 * mean(f_covid), digits = 3)),"%)"
+  #"Mycoplasma (dotted line, ", formatC(100.0 * mean(f_myco), digits = 3),"%)"
+)
+
+p <- ggplot(t_long %>% dplyr::filter(target == "covid"), aes(x = haplotype, y = f, fill = target)) +
   scale_fill_manual(values = c("human" = "#ffffff", "covid" = "#cccccc", "myco" = "#999999", "test" = "#999999")) +
   geom_col(position = position_dodge(), color = "#000000") + xlab("HLA haplotype") +
   ylab("Epitopes overlapping \nwith transmembrane helix") +
   scale_y_continuous(
     labels = scales::percent_format(accuracy = 2),
     breaks = seq(0.0, 1.0, by = 0.1),
-    minor_breaks = seq(0.0, 1.0, by = 0.1),
-    limits = c(0, 1.0)
+    minor_breaks = seq(0.0, 1.0, by = 0.1)
+    # limits = c(0, 1.0)
   ) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  geom_hline(yintercept = mean(f_human)) +
-  geom_hline(yintercept = mean(f_covid), lty = "dashed") +
-  geom_hline(yintercept = mean(f_myco), lty = "dotted") +
+  #geom_hline(yintercept = f_human) +
+  geom_hline(yintercept = f_covid, lty = "dashed") +
+  #geom_hline(yintercept = f_myco, lty = "dotted") +
   labs(
     title = "% epitopes that overlap with TMH per haplotype",
-    caption = paste0(
-      "Horizontal lines: % 9-mers that overlaps with TMH in ",
-      "humans (straight line, ", formatC(100.0 * mean(f_human), digits = 3),"%), \n",
-      "SARS-Cov2 (dashed line, ", stringr::str_trim(formatC(100.0 * mean(f_covid), digits = 3)),"%), ",
-      "Mycoplasma (dotted line, ", formatC(100.0 * mean(f_myco), digits = 3),"%)"
-    )
+    caption = caption_text
   )
 p
 

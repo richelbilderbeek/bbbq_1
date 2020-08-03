@@ -29,11 +29,11 @@ figures: table_1.csv table_2.csv
 peregrine:
 	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc1 covid
 	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc2 covid
+	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_coincidence_tmh.R covid
 
 ################################################################################
-# Create the CSV tables
+# Create the CSV tables for the binders
 ################################################################################
-
 
 table_1.csv: create_table.R
 	echo "Assume the data is present. If not, run 'make peregrine'"
@@ -44,7 +44,7 @@ table_2.csv: create_table.R
 	Rscript create_table.R mhc2
 
 ################################################################################
-# Create the LaTeX tables
+# Create all LaTeX tables
 ################################################################################
 
 table_1.latex: table_1.csv
@@ -60,6 +60,13 @@ table_2.latex: table_2.csv
 ################################################################################
 # Create the figures
 ################################################################################
+
+figure_1.png: table_1.csv covid_coincidence.csv
+	Rscript create_figure.R mhc1
+
+figure_2.png: table_2.csv covid_coincidence.csv
+	Rscript create_figure.R mhc2
+
 
 #fig_bbbq_1.png: bbbq_1.Rmd
 #	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
