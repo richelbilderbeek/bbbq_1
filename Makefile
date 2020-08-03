@@ -1,21 +1,22 @@
 #
 # Usage:
 #
-# Create tables and figures, assume real data is there (to
-# create the real data, use 'make peregrine')
-#
-#   make
-#
-# Run the real data on Peregrine
+# Create the data on Peregrine
 #
 #   make peregrine
 #
-# Run the tests on Peregrine
+# Create the results locally, assume data is there
 #
-#   make peregrine_test
+#   make results
 #
 
-all: table_1.latex table_2.latex
+all:
+	echo "Run either 'make peregrine' on Peregrine, to create the data"
+	echo "or run either 'make results' locally, to create the results"
+
+peregrine: haplotypes.csv covid_peptides.csv human_peptides.csv
+
+results: table_1.latex table_2.latex
 	echo "To create figures, run 'make figures'"
 
 figures: table_1.csv table_2.csv
@@ -23,13 +24,49 @@ figures: table_1.csv table_2.csv
 	Rscript create_figure.R mhc2
 
 ################################################################################
-# Create the raw data
+# Haplotypes
+################################################################################
+haplotypes.csv:
+	Rscript create_haplotypes.R
+
+################################################################################
+# Targets
 ################################################################################
 
-peregrine:
-	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc1 covid
-	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc2 covid
-	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_coincidence_tmh.R covid
+covid.fas:
+	Rscript get_proteome.R covid
+
+human.fas:
+	Rscript get_proteome.R human
+
+################################################################################
+# Proteins
+################################################################################
+
+covid_proteins.csv: covid.fas
+	Rscript create_proteins.R covid
+
+human_proteins.csv: human.fas
+	Rscript create_proteins.R human
+
+################################################################################
+# Peptides
+################################################################################
+
+covid_peptides.csv: covid_proteins.csv
+	Rscript create_peptides.R covid
+
+human_peptides.csv: human_proteins.csv
+	Rscript create_peptides.R human
+
+################################################################################
+# Create the raw data (old)
+################################################################################
+
+#peregrine:
+#	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc1 covid
+#	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc2 covid
+#	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_coincidence_tmh.R covid
 
 ################################################################################
 # Create the CSV tables for the binders

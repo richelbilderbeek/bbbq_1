@@ -19,13 +19,13 @@ Creates all:
 
 #### `haplotypes.csv`
 
-`haplotype`  |`mhc_class`|`haplotype_id`
--------------|-----------|--------------
-HLA-A*01:01  |1          |h1
-HLA-A*02:01  |1          |h2
-...          |...        |...
-HLA-DRB3*0101|2          |h14
-HLA-DRB3*0202|2          |h15
+`haplotype`  |`haplotype_id`
+-------------|--------------
+HLA-A*01:01  |h1
+HLA-A*02:01  |h2
+...          |...
+HLA-DRB3*0101|h14
+HLA-DRB3*0202|h15
 
 ```
 Rscript create_haplotypes.R
@@ -42,16 +42,21 @@ AAACCCVVVVAAACCCVVVVAAACCCVVVVAAACCCVVVV
 AAACCCVVVVAAACCCVVVVAAACCC
 ```
 
+```
+Rscript get_proteome.R covid
+Rscript get_proteome.R human
+```
+
 #### `[target]_proteins.csv`
 
-`protein_id`|`protein`   |`sequence`
-------------|------------|------------
-p1          |Somethingine|AAACCCVVVVAAACCCVVVVAAACCCVVVVAAACCCVVVV
-p2          |Somethingase|AAACCCVVVVAAACCCVVVVAAACCC
+`protein_id`|`protein`     |`sequence`
+------------|--------------|----------------------------------------
+p1          |Somethingine  |AAACCCVVVVAAACCCVVVVAAACCCVVVVAAACCCVVVV
+p2          |Somethingase  |AAACCCVVVVAAACCCVVVVAAACCC
 
 ```
 Rscript create_proteins.R covid
-Rscript create_proteins.R myco
+Rscript create_proteins.R human
 ```
 
 #### `[target]_peptides.csv`
@@ -62,7 +67,7 @@ p1          |1           |AAACCCVVVV
 
 ```
 Rscript create_peptides.R covid
-Rscript create_peptides.R myco
+Rscript create_peptides.R human
 ```
 
 #### `[target]_topology.csv`
