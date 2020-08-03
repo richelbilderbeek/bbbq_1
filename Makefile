@@ -26,6 +26,12 @@ figures: table_1.csv table_2.csv
 	Rscript create_figure.R mhc2
 
 ################################################################################
+#
+# 1. PEREGRINE
+#
+################################################################################
+
+################################################################################
 # Haplotypes
 ################################################################################
 haplotypes.csv:
@@ -131,13 +137,28 @@ human_h26_ic50s.csv: human_peptides.csv haplotypes.csv
 	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h26
 
 ################################################################################
-# Create the raw data (old)
+#
+# 2. RESULTS
+#
 ################################################################################
 
-#peregrine:
-#	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc1 covid
-#	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_binders_tmh.R mhc2 covid
-#	sbatch ~/GitHubs/peregrine/scripts/run_r_script.sh predict_n_coincidence_tmh.R covid
+################################################################################
+# Coincidence
+################################################################################
+covid_coincidence.csv: covid_topology.csv covid_peptides.csv
+	Rscript predict_n_coincidence_tmh.R covid
+
+human_coincidence.csv: human_topology.csv human_peptides.csv
+	Rscript predict_n_coincidence_tmh.R human
+
+################################################################################
+# Binders
+################################################################################
+covid_binders.csv: covid_h26_ic50s.csv
+	Rscript predict_n_binders_tmh.R covid
+ 
+human_binders.csv: human_h26_ic50s.csv
+	Rscript predict_n_binders_tmh.R human
 
 ################################################################################
 # Create the CSV tables for the binders

@@ -104,16 +104,30 @@ sbatch Rscript predict_ic50s.R covid h15
 
 Run this locally.
 
-
 ### `[target]_coincidence.csv
 
+`protein_id`|`n_spots`|`n_spots_tmh`
+------------|---------|-------------
+p1          |3        |1
+p2          |4        |2
+
 ```
-Rscript predict_n_coincidence_tmh.R
+Rscript predict_n_coincidence_tmh.R covid
+Rscript predict_n_coincidence_tmh.R human
 ```
 
-### `[target]_binders.csv
+### `[target]_binders.csv`
+
+`protein_id`|`haplotype_id`|`n_binders`|`n_binders_tmh`
+------------|--------------|-----------|---------------
+p1          |h1            |11         |5
+p2          |h1            |12         |6
+...         |...           |...        |
+p1          |h2            |13         |7
+p2          |h2            |14         |8
 
 ```
-Rscript predict_n_binders_tmh.R
+Rscript predict_n_binders_tmh.R covid
+Rscript predict_n_binders_tmh.R human
 ```
 

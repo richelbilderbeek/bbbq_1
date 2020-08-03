@@ -25,3 +25,5 @@ human.fasta
 jt_info.txt
 covid_topology.csv
 human_topology.csv
+covid_h*.csv
+human_h*.csv
