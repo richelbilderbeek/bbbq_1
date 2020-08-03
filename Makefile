@@ -56,10 +56,10 @@ human_proteins.csv: human.fasta
 ################################################################################
 
 covid_topology.csv: covid_proteins.csv
-	sbatch ../../peregrine/scripts/run_r_script.sh Rscript create_topology.R covid
+	sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R covid
 
 human_topology.csv: human_proteins.csv
-	sbatch ../../peregrine/scripts/run_r_script.sh Rscript create_topology.R human
+	sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R human
 
 ################################################################################
 # Peptides
