@@ -16,7 +16,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --ntasks=1
-#SBATCH --mem=1G
+#SBATCH --mem=10G
 #SBATCH --job-name=peregrine_make
 #SBATCH --output=peregrine_make.log
 module load R Python
