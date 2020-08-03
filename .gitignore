@@ -22,3 +22,6 @@ covid_proteins.csv
 human_peptides.csv
 human_proteins.csv
 human.fasta
+jt_info.txt
+covid_topology.csv
+human_topology.csv

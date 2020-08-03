@@ -15,8 +15,8 @@ all:
 	echo "or run either 'make results' locally, to create the results"
 
 peregrine: haplotypes.csv \
-             covid_peptides.csv human_peptides.csv \
-             covid_topology.csv human_topology.csv
+             covid_topology.csv human_topology.csv \
+             covid_h26_ic50s.csv human_h26_ic50s.csv
 
 results: table_1.latex table_2.latex
 	echo "To create figures, run 'make figures'"
@@ -70,6 +70,65 @@ covid_peptides.csv: covid_proteins.csv
 
 human_peptides.csv: human_proteins.csv
 	Rscript create_peptides.R human
+
+################################################################################
+# IC50s
+################################################################################
+covid_h26_ic50s.csv: covid_peptides.csv haplotypes.csv
+	sbatch Rscript predict_ic50s.R covid h1
+	sbatch Rscript predict_ic50s.R covid h2
+	sbatch Rscript predict_ic50s.R covid h3
+	sbatch Rscript predict_ic50s.R covid h4
+	sbatch Rscript predict_ic50s.R covid h5
+	sbatch Rscript predict_ic50s.R covid h6
+	sbatch Rscript predict_ic50s.R covid h7
+	sbatch Rscript predict_ic50s.R covid h8
+	sbatch Rscript predict_ic50s.R covid h9
+	sbatch Rscript predict_ic50s.R covid h10
+	sbatch Rscript predict_ic50s.R covid h11
+	sbatch Rscript predict_ic50s.R covid h12
+	sbatch Rscript predict_ic50s.R covid h13
+	sbatch Rscript predict_ic50s.R covid h14
+	sbatch Rscript predict_ic50s.R covid h15
+	sbatch Rscript predict_ic50s.R covid h16
+	sbatch Rscript predict_ic50s.R covid h17
+	sbatch Rscript predict_ic50s.R covid h18
+	sbatch Rscript predict_ic50s.R covid h19
+	sbatch Rscript predict_ic50s.R covid h20
+	sbatch Rscript predict_ic50s.R covid h21
+	sbatch Rscript predict_ic50s.R covid h22
+	sbatch Rscript predict_ic50s.R covid h23
+	sbatch Rscript predict_ic50s.R covid h24
+	sbatch Rscript predict_ic50s.R covid h25
+	sbatch Rscript predict_ic50s.R covid h26
+
+human_h26_ic50s.csv: human_peptides.csv haplotypes.csv
+	sbatch Rscript predict_ic50s.R human h1
+	sbatch Rscript predict_ic50s.R human h2
+	sbatch Rscript predict_ic50s.R human h3
+	sbatch Rscript predict_ic50s.R human h4
+	sbatch Rscript predict_ic50s.R human h5
+	sbatch Rscript predict_ic50s.R human h6
+	sbatch Rscript predict_ic50s.R human h7
+	sbatch Rscript predict_ic50s.R human h8
+	sbatch Rscript predict_ic50s.R human h9
+	sbatch Rscript predict_ic50s.R human h10
+	sbatch Rscript predict_ic50s.R human h11
+	sbatch Rscript predict_ic50s.R human h12
+	sbatch Rscript predict_ic50s.R human h13
+	sbatch Rscript predict_ic50s.R human h14
+	sbatch Rscript predict_ic50s.R human h15
+	sbatch Rscript predict_ic50s.R human h16
+	sbatch Rscript predict_ic50s.R human h17
+	sbatch Rscript predict_ic50s.R human h18
+	sbatch Rscript predict_ic50s.R human h19
+	sbatch Rscript predict_ic50s.R human h20
+	sbatch Rscript predict_ic50s.R human h21
+	sbatch Rscript predict_ic50s.R human h22
+	sbatch Rscript predict_ic50s.R human h23
+	sbatch Rscript predict_ic50s.R human h24
+	sbatch Rscript predict_ic50s.R human h25
+	sbatch Rscript predict_ic50s.R human h26
 
 ################################################################################
 # Create the raw data (old)
