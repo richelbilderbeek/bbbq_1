@@ -14,7 +14,9 @@ all:
 	echo "Run either 'make peregrine' on Peregrine, to create the data"
 	echo "or run either 'make results' locally, to create the results"
 
-peregrine: haplotypes.csv covid_peptides.csv human_peptides.csv
+peregrine: haplotypes.csv \
+             covid_peptides.csv human_peptides.csv \
+             covid_topology.csv human_topology.csv
 
 results: table_1.latex table_2.latex
 	echo "To create figures, run 'make figures'"
@@ -48,6 +50,16 @@ covid_proteins.csv: covid.fas
 
 human_proteins.csv: human.fas
 	Rscript create_proteins.R human
+
+################################################################################
+# Topology
+################################################################################
+
+covid_topology.csv: covid_proteins.csv
+	Rscript create_topology.R covid
+
+human_topology.csv: human_proteins.csv
+	Rscript create_topology.R human
 
 ################################################################################
 # Peptides
