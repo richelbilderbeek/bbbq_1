@@ -20,4 +20,4 @@
 #SBATCH --job-name=peregrine_make
 #SBATCH --output=peregrine_make.log
 module load R Python
-make
+make peregrine
