@@ -52,14 +52,14 @@ human_proteins.csv: human.fas
 	Rscript create_proteins.R human
 
 ################################################################################
-# Topology
+# Topology, using sbatch
 ################################################################################
 
 covid_topology.csv: covid_proteins.csv
-	Rscript create_topology.R covid
+	sbatch ../../peregrine/scripts/run_r_script.sh Rscript create_topology.R covid
 
 human_topology.csv: human_proteins.csv
-	Rscript create_topology.R human
+	sbatch ../../peregrine/scripts/run_r_script.sh Rscript create_topology.R human
 
 ################################################################################
 # Peptides
@@ -72,63 +72,63 @@ human_peptides.csv: human_proteins.csv
 	Rscript create_peptides.R human
 
 ################################################################################
-# IC50s
+# IC50s, using sbatch
 ################################################################################
 covid_h26_ic50s.csv: covid_peptides.csv haplotypes.csv
-	sbatch Rscript predict_ic50s.R covid h1
-	sbatch Rscript predict_ic50s.R covid h2
-	sbatch Rscript predict_ic50s.R covid h3
-	sbatch Rscript predict_ic50s.R covid h4
-	sbatch Rscript predict_ic50s.R covid h5
-	sbatch Rscript predict_ic50s.R covid h6
-	sbatch Rscript predict_ic50s.R covid h7
-	sbatch Rscript predict_ic50s.R covid h8
-	sbatch Rscript predict_ic50s.R covid h9
-	sbatch Rscript predict_ic50s.R covid h10
-	sbatch Rscript predict_ic50s.R covid h11
-	sbatch Rscript predict_ic50s.R covid h12
-	sbatch Rscript predict_ic50s.R covid h13
-	sbatch Rscript predict_ic50s.R covid h14
-	sbatch Rscript predict_ic50s.R covid h15
-	sbatch Rscript predict_ic50s.R covid h16
-	sbatch Rscript predict_ic50s.R covid h17
-	sbatch Rscript predict_ic50s.R covid h18
-	sbatch Rscript predict_ic50s.R covid h19
-	sbatch Rscript predict_ic50s.R covid h20
-	sbatch Rscript predict_ic50s.R covid h21
-	sbatch Rscript predict_ic50s.R covid h22
-	sbatch Rscript predict_ic50s.R covid h23
-	sbatch Rscript predict_ic50s.R covid h24
-	sbatch Rscript predict_ic50s.R covid h25
-	sbatch Rscript predict_ic50s.R covid h26
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h1
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h2
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h3
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h4
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h5
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h6
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h7
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h8
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h9
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h10
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h11
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h12
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h13
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h14
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h15
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h16
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h17
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h18
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h19
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h20
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h21
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h22
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h23
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h24
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h25
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R covid h26
 
 human_h26_ic50s.csv: human_peptides.csv haplotypes.csv
-	sbatch Rscript predict_ic50s.R human h1
-	sbatch Rscript predict_ic50s.R human h2
-	sbatch Rscript predict_ic50s.R human h3
-	sbatch Rscript predict_ic50s.R human h4
-	sbatch Rscript predict_ic50s.R human h5
-	sbatch Rscript predict_ic50s.R human h6
-	sbatch Rscript predict_ic50s.R human h7
-	sbatch Rscript predict_ic50s.R human h8
-	sbatch Rscript predict_ic50s.R human h9
-	sbatch Rscript predict_ic50s.R human h10
-	sbatch Rscript predict_ic50s.R human h11
-	sbatch Rscript predict_ic50s.R human h12
-	sbatch Rscript predict_ic50s.R human h13
-	sbatch Rscript predict_ic50s.R human h14
-	sbatch Rscript predict_ic50s.R human h15
-	sbatch Rscript predict_ic50s.R human h16
-	sbatch Rscript predict_ic50s.R human h17
-	sbatch Rscript predict_ic50s.R human h18
-	sbatch Rscript predict_ic50s.R human h19
-	sbatch Rscript predict_ic50s.R human h20
-	sbatch Rscript predict_ic50s.R human h21
-	sbatch Rscript predict_ic50s.R human h22
-	sbatch Rscript predict_ic50s.R human h23
-	sbatch Rscript predict_ic50s.R human h24
-	sbatch Rscript predict_ic50s.R human h25
-	sbatch Rscript predict_ic50s.R human h26
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h1
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h2
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h3
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h4
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h5
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h6
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h7
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h8
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h9
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h10
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h11
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h12
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h13
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h14
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h15
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h16
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h17
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h18
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h19
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h20
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h21
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h22
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h23
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h24
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h25
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h26
 
 ################################################################################
 # Create the raw data (old)
