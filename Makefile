@@ -35,20 +35,20 @@ haplotypes.csv:
 # Targets
 ################################################################################
 
-covid.fas:
+covid.fasta:
 	Rscript get_proteome.R covid
 
-human.fas:
+human.fasta:
 	Rscript get_proteome.R human
 
 ################################################################################
 # Proteins
 ################################################################################
 
-covid_proteins.csv: covid.fas
+covid_proteins.csv: covid.fasta
 	Rscript create_proteins.R covid
 
-human_proteins.csv: human.fas
+human_proteins.csv: human.fasta
 	Rscript create_proteins.R human
 
 ################################################################################
