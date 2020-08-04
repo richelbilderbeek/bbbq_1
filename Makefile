@@ -170,10 +170,14 @@ human_binders.csv:
 # Create the CSV tables for the binders
 ################################################################################
 
-table_1.csv: create_table.R covid_binders.csv human_binders.csv
+table_1.csv: create_table.R \
+             covid_binders.csv human_binders.csv \
+             covid_coincidence.csv human_coincidence.csv
 	Rscript create_table.R mhc1
 
-table_2.csv: create_table.R covid_binders.csv human_binders.csv
+table_2.csv: create_table.R \
+             covid_binders.csv human_binders.csv \
+             covid_coincidence.csv human_coincidence.csv
 	Rscript create_table.R mhc2
 
 ################################################################################

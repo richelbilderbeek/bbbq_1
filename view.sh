@@ -1,2 +1,2 @@
 #!/bin/bash
-qpdfview bbbq_1.pdf
+evince bbbq_1.pdf

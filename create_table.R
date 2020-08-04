@@ -24,7 +24,25 @@ mhc_class <- stringr::str_sub(mhc, 4, 4)
 message("mhc_class: '", mhc_class, "'")
 
 
-all_csv_files <- list.files(pattern = "*.csv")
+haplotype_lut <- mhcnpreds::get_haplotype_lut()
+haplotype_lut$mhc_class[haplotype_lut$haplotype %in% mhcnuggetsr::get_mhc_1_haplotypes()] <- 1
+haplotype_lut$mhc_class[haplotype_lut$haplotype %in% mhcnuggetsr::get_mhc_2_haplotypes()] <- 2
+
+haplotype_ids <- haplotype_lut$id[haplotype_lut$mhc_class == mhc_class]
+
+coincidence_files <- list.files(pattern = "*_coincidence.csv")
+binders_files <- list.files(pattern = "*_binders.csv")
+
+all_target_haplotype_files <- stringr::str_subset(
+  all_csv_files,
+  paste0(".*_h[:digit:]{1,3}_ic50s")
+)
+all_target_haplotype_files
+
+mhc_files <- rep(NA, length(all_csv_files))
+for (i in seq_along(all_csv_files)) {
+
+}
 
 # Only select files for one MHC class,
 # which always start as, for example, "mhc1_"
