@@ -1,2 +1,4 @@
-n_spots,n_spots_tmh
-14207,1271
+protein_id,n_spots,n_spots_tmh
+p1,35,30
+p2,67,42
+p3,214,84

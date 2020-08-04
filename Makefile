@@ -145,43 +145,47 @@ human_h26_ic50s.csv: human_peptides.csv haplotypes.csv
 ################################################################################
 # Coincidence
 ################################################################################
-covid_coincidence.csv: covid_topology.csv covid_peptides.csv
+covid_coincidence.csv: 
+	echo "Expects 'covid_topology.csv' to be created by Peregrine"
+	echo "Expects 'covid_peptides.csv' to be created by Peregrine"
 	Rscript predict_n_coincidence_tmh.R covid
 
-human_coincidence.csv: human_topology.csv human_peptides.csv
+human_coincidence.csv:
+	echo "Expects 'human_topology.csv' to be created by Peregrine"
+	echo "Expects 'human_peptides.csv' to be created by Peregrine"
 	Rscript predict_n_coincidence_tmh.R human
 
 ################################################################################
 # Binders
 ################################################################################
-covid_binders.csv: covid_h26_ic50s.csv
+covid_binders.csv: 
+	echo "Expects 'covid_h26_ic50s.csv' (and friends) to be created by Peregrine"
 	Rscript predict_n_binders_tmh.R covid
  
-human_binders.csv: human_h26_ic50s.csv
+human_binders.csv:
+	echo "Expects 'human_h26_ic50s.csv' (and friends) to be created by Peregrine"
 	Rscript predict_n_binders_tmh.R human
 
 ################################################################################
 # Create the CSV tables for the binders
 ################################################################################
 
-table_1.csv: create_table.R
-	echo "Assume the data is present. If not, run 'make peregrine'"
+table_1.csv: create_table.R covid_binders.csv human_binders.csv
 	Rscript create_table.R mhc1
 
-table_2.csv: create_table.R
-	echo "Assume the data is present. If not, run 'make peregrine'"
+table_2.csv: create_table.R covid_binders.csv human_binders.csv
 	Rscript create_table.R mhc2
 
 ################################################################################
 # Create all LaTeX tables
 ################################################################################
 
-table_1.latex: table_1.csv
+table_1.latex: table_1.csv table_2.csv
 	python3 -m csv2latex
 	mv LaTeX/table_1.tex table_1.latex
 	rm -rf LaTeX
 
-table_2.latex: table_2.csv
+table_2.latex: table_1.csv table_2.csv
 	python3 -m csv2latex
 	mv LaTeX/table_2.tex table_2.latex
 	rm -rf LaTeX
