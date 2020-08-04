@@ -18,7 +18,10 @@ peregrine: haplotypes.csv \
              covid_topology.csv human_topology.csv \
              covid_h26_ic50s.csv human_h26_ic50s.csv
 
-results: table_1.latex table_2.latex
+results: table_tmh_binders_raw.csv
+	echo "To create figures, run 'make figures'"
+
+pretty_results: table_1.latex table_2.latex
 	echo "To create figures, run 'make figures'"
 
 figures: table_1.csv table_2.csv
@@ -145,7 +148,7 @@ human_h26_ic50s.csv: human_peptides.csv haplotypes.csv
 ################################################################################
 # Coincidence
 ################################################################################
-covid_coincidence.csv: 
+covid_coincidence.csv:
 	echo "Expects 'covid_topology.csv' to be created by Peregrine"
 	echo "Expects 'covid_peptides.csv' to be created by Peregrine"
 	Rscript predict_n_coincidence_tmh.R covid
@@ -158,10 +161,10 @@ human_coincidence.csv:
 ################################################################################
 # Binders
 ################################################################################
-covid_binders.csv: 
+covid_binders.csv:
 	echo "Expects 'covid_h26_ic50s.csv' (and friends) to be created by Peregrine"
 	Rscript predict_n_binders_tmh.R covid
- 
+
 human_binders.csv:
 	echo "Expects 'human_h26_ic50s.csv' (and friends) to be created by Peregrine"
 	Rscript predict_n_binders_tmh.R human
@@ -169,6 +172,10 @@ human_binders.csv:
 ################################################################################
 # Create the CSV tables for the binders
 ################################################################################
+
+table_tmh_binders_raw.csv: create_table.R \
+             covid_binders.csv human_binders.csv
+	Rscript create_table_tmh_binders_raw.R
 
 table_1.csv: create_table.R \
              covid_binders.csv human_binders.csv \

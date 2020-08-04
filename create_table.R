@@ -12,7 +12,7 @@
 library(testthat)
 
 args <- commandArgs(trailingOnly = TRUE)
-if (1 == 2) {
+if (length(args) == 0) {
   args <- "mhc1"
 }
 expect_equal(length(args), 1)
@@ -30,8 +30,24 @@ haplotype_lut$mhc_class[haplotype_lut$haplotype %in% mhcnuggetsr::get_mhc_2_hapl
 
 haplotype_ids <- haplotype_lut$id[haplotype_lut$mhc_class == mhc_class]
 
-coincidence_files <- list.files(pattern = "*_coincidence.csv")
-binders_files <- list.files(pattern = "*_binders.csv")
+targets <- c("covid", "human")
+
+# One tibble per target
+tibbles <- list()
+
+for (target in targets) {
+  coincidence_filename <- paste0(target, "_coincidence.csv")
+  testthat::expect_true(file.exists(coincidence_filename))
+  binders_filename <- paste0(target, "_binders.csv")
+  testthat::expect_true(file.exists(binders_filename))
+  t_coincidence <- readr::read_csv(coincidence_filename)
+
+  t_binders <- readr::read_csv(binders_filename)
+  t_binders
+}
+
+
+
 
 all_target_haplotype_files <- stringr::str_subset(
   all_csv_files,

@@ -131,3 +131,17 @@ Rscript predict_n_binders_tmh.R covid
 Rscript predict_n_binders_tmh.R human
 ```
 
+### `table_tmh_binders_raw.csv`
+
+`target`|`haplotype_id`|`n_binders`|`n_binders_tmh`
+--------|--------------|-----------|---------------
+covid   |h1            |29         |12
+covid   |h2            |28         |13
+...     |...           |...        |...
+human   |h1            |39         |22
+human   |h2            |38         |23
+
+```
+Rscript create_table_tmh_binders_raw.R
+```
+
