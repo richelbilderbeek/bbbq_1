@@ -65,4 +65,4 @@ t_wide <- tidyr::pivot_wider(
   values_from = "f"
 )
 filename <- paste0("table_tmh_binders_mhc", mhc_class, ".csv")
-readr::write_csv(t, t_wide)
+readr::write_csv(t_wide, filename)
