@@ -237,9 +237,9 @@ test_conversion:
 	mv bbbq_1_stats_covid.latex 2.latex
 
 update_packages:
-	Rscript -e 'remotes::install_github("richelbilderbeek/mhcnuggetsr")
-	Rscript -e 'remotes::install_github("richelbilderbeek/mhcnpreds")
-	Rscript -e 'remotes::install_github("richelbilderbeek/bbbq")
+	Rscript -e 'remotes::install_github("richelbilderbeek/mhcnuggetsr")'
+	Rscript -e 'remotes::install_github("richelbilderbeek/mhcnpreds")'
+	Rscript -e 'remotes::install_github("richelbilderbeek/bbbq")'
 
 clean:
 	rm *.png *.latex *.pdf
