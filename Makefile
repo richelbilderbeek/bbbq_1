@@ -18,13 +18,9 @@ peregrine: haplotypes.csv \
              covid_topology.csv human_topology.csv \
              covid_h26_ic50s.csv human_h26_ic50s.csv
 
-results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex
-	echo "To create figures, run 'make figures'"
+results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
+         fig_f_tmh_mhc1.png fig_f_tmh_mhc2.png
 	Rscript fix_table_captions_and_labels.R
-
-figures: table_1.csv table_2.csv
-	Rscript create_figure.R mhc1
-	Rscript create_figure.R mhc2
 
 ################################################################################
 #
@@ -198,10 +194,12 @@ table_tmh_binders_mhc2.latex: table_tmh_binders_mhc2.csv
 # Create the figures
 ################################################################################
 
-figure_1.png: table_1.csv covid_coincidence.csv
+fig_f_tmh_mhc1.png: table_tmh_binders_raw.csv \
+                    covid_coincidence.csv human_coincidence.csv 
 	Rscript create_figure.R mhc1
 
-figure_2.png: table_2.csv covid_coincidence.csv
+fig_f_tmh_mhc2.png: table_tmh_binders_raw.csv \
+                    covid_coincidence.csv human_coincidence.csv 
 	Rscript create_figure.R mhc2
 
 

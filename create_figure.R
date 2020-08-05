@@ -11,10 +11,11 @@
 #
 #
 #
+library(dplyr)
 library(testthat)
 
 args <- commandArgs(trailingOnly = TRUE)
-if (1 == 2) {
+if (length(args) == 0) {
   args <- "mhc1"
 }
 expect_equal(length(args), 1)
@@ -25,71 +26,64 @@ expect_equal(4, stringr::str_length(mhc))
 mhc_class <- stringr::str_sub(mhc, 4, 4)
 message("mhc_class: '", mhc_class, "'")
 
-table_filename <- paste0("table_", mhc_class, ".csv")
+haplotypes_filename <- "haplotypes.csv"
+message("'haplotypes_filename': '", haplotypes_filename, "'")
+testthat::expect_true(file.exists(haplotypes_filename))
+t_haplotypes <- readr::read_csv(haplotypes_filename)
+
+table_filename <- "table_tmh_binders_raw.csv"
 message("table_filename: '", table_filename, "'")
 testthat::expect_true(file.exists(table_filename))
-
-t_wide <- readr::read_csv(table_filename)
-
-# Extract the percentages and convert these to fractions
-for (col_index in seq(2, ncol(t_wide))) {
-  # Direct conversion from tibble column to char vector fails
-  text <- as.matrix(t_wide[, col_index])[, 1]
-  percs <- stringr::str_replace(
-    string = text,
-    pattern = "^(.*) \\(.*\\)$",
-    replacement = "\\1"
-  )
-  t_wide[, col_index] <- as.numeric(percs) / 100.0
+t_tmh_binders <- readr::read_csv(table_filename)
+t_tmh_binders$f_tmh <- NA
+t_tmh_binders$f_tmh <- t_tmh_binders$n_binders_tmh / t_tmh_binders$n_binders
+t_tmh_binders$haplotype <- NA
+for (i in seq_len(nrow(t_tmh_binders))) {
+  id <- t_tmh_binders$haplotype_id[i]
+  t_tmh_binders$haplotype[i] <- t_haplotypes$haplotype[t_haplotypes$haplotype_id == id]
 }
-t_wide
+t_tmh_binders$haplotype <- as.factor(t_tmh_binders$haplotype)
 
-t_long <- tidyr::pivot_longer(
-  t_wide,
-  !haplotype,
-  names_to = "target",
-  values_to = "f"
-)
-t_long$target <- as.factor(t_long$target)
-t_long
+all_csv_filenames <- list.files(pattern = "*.csv")
+target_filenames <- stringr::str_subset(all_csv_filenames, pattern = "coincidence")
+targets <- stringr::str_match(target_filenames, "(.*)_coincidence.csv")[, 2]
+message("targets: ", targets)
 
-library(ggplot2)
-
-t_coincidence <- tibble::tibble(
-  target = c("human", "covid", "myco"),
-  n_spots = 1,
-  n_spots_tmh = 0,
-  f = NA
-)
-t_coincidence$f <- mean(t_long$f) * seq(0.9, 1.1, by = 0.1)
-
-for (i in seq_along(t_coincidence$target)) {
-  target <- t_coincidence$target[i]
+t_coincidence <- list()
+for (i in seq_along(targets)) {
+  target  <- targets[i]
   filename <- paste0(target, "_coincidence.csv")
-  if (!file.exists(filename)) next()
-  this_t <- readr::read_csv(filename)
-  t_coincidence$n_spots[i] <- this_t$n_spots
-  t_coincidence$n_spots_tmh[i] <- this_t$n_spots_tmh
-  t_coincidence$f[i] <- this_t$n_spots_tmh / this_t$n_spots
+  testthat::expect_true(file.exists(filename))
+  t <- readr::read_csv(filename)
+  t <- t %>%
+    summarise(
+      n_spots = sum(n_spots),
+      n_spots_tmh = sum(n_spots_tmh),
+      .groups = "keep"
+  )
+  t$target <- target
+  t_coincidence[[i]] <- t
 }
+t_coincidence <- bind_rows(t_coincidence)
+t_coincidence$f_tmh <- NA
+t_coincidence$f_tmh <- t_coincidence$n_spots_tmh / t_coincidence$n_spots
 
-f_human <- t_coincidence$f[t_coincidence$target == "human"]
-f_covid <- t_coincidence$f[t_coincidence$target == "covid"]
-f_myco <- t_coincidence$f[t_coincidence$target == "myco"]
-
-t_coincidence
-
+f_human <- t_coincidence$f_tmh[t_coincidence$target == "human"]
+f_covid <- t_coincidence$f_tmh[t_coincidence$target == "covid"]
 
 caption_text <- paste0(
   "Horizontal lines: % 9-mers that overlaps with TMH in ",
-  #"humans (straight line, ", formatC(100.0 * mean(f_human), digits = 3),"%), \n",
+  "humans (straight line, ", formatC(100.0 * mean(f_human), digits = 3),"%), \n",
   "SARS-Cov2 (dashed line, ", stringr::str_trim(formatC(100.0 * mean(f_covid), digits = 3)),"%)"
-  #"Mycoplasma (dotted line, ", formatC(100.0 * mean(f_myco), digits = 3),"%)"
 )
+caption_text
 
-p <- ggplot(t_long %>% dplyr::filter(target == "covid"), aes(x = haplotype, y = f, fill = target)) +
-  scale_fill_manual(values = c("human" = "#ffffff", "covid" = "#cccccc", "myco" = "#999999", "test" = "#999999")) +
-  geom_col(position = position_dodge(), color = "#000000") + xlab("HLA haplotype") +
+names(t_tmh_binders)
+library(ggplot2)
+p <- ggplot(t_tmh_binders, aes(x = haplotype, y = f_tmh, fill = target)) +
+  scale_fill_manual(values = c("human" = "#ffffff", "covid" = "#cccccc")) +
+  geom_col(position = position_dodge(), color = "#000000") +
+  xlab("HLA haplotype") +
   ylab("Epitopes overlapping \nwith transmembrane helix") +
   scale_y_continuous(
     labels = scales::percent_format(accuracy = 2),
@@ -98,16 +92,15 @@ p <- ggplot(t_long %>% dplyr::filter(target == "covid"), aes(x = haplotype, y = 
     # limits = c(0, 1.0)
   ) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  #geom_hline(yintercept = f_human) +
+  geom_hline(yintercept = f_human) +
   geom_hline(yintercept = f_covid, lty = "dashed") +
-  #geom_hline(yintercept = f_myco, lty = "dotted") +
   labs(
     title = "% epitopes that overlap with TMH per haplotype",
     caption = caption_text
   )
 p
 
-png_filename <- paste0("fig_bbbq_", mhc_class, ".png")
+png_filename <- paste0("fig_f_tmh_mhc", mhc_class, ".png")
 
 p + ggsave(png_filename, width = 7, height = 7)
 
