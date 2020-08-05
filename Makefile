@@ -18,10 +18,10 @@ peregrine: haplotypes.csv \
              covid_topology.csv human_topology.csv \
              covid_h26_ic50s.csv human_h26_ic50s.csv
 
-results: table_tmh_binders_raw.csv
+results: table_tmh_binders_mhc1.csv table_tmh_binders_mhc2.csv
 	echo "To create figures, run 'make figures'"
 
-pretty_results: table_1.latex table_2.latex
+pretty_results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex
 	echo "To create figures, run 'make figures'"
 
 figures: table_1.csv table_2.csv
@@ -151,41 +151,36 @@ human_h26_ic50s.csv: human_peptides.csv haplotypes.csv
 covid_coincidence.csv:
 	echo "Expects 'covid_topology.csv' to be created by Peregrine"
 	echo "Expects 'covid_peptides.csv' to be created by Peregrine"
-	Rscript predict_n_coincidence_tmh.R covid
+	Rscript count_coincidence_tmh.R covid
 
 human_coincidence.csv:
 	echo "Expects 'human_topology.csv' to be created by Peregrine"
 	echo "Expects 'human_peptides.csv' to be created by Peregrine"
-	Rscript predict_n_coincidence_tmh.R human
+	Rscript count_coincidence_tmh.R human
 
 ################################################################################
 # Binders
 ################################################################################
 covid_binders.csv:
 	echo "Expects 'covid_h26_ic50s.csv' (and friends) to be created by Peregrine"
-	Rscript predict_n_binders_tmh.R covid
+	Rscript count_binders_tmh.R covid
 
 human_binders.csv:
 	echo "Expects 'human_h26_ic50s.csv' (and friends) to be created by Peregrine"
-	Rscript predict_n_binders_tmh.R human
+	Rscript count_binders_tmh.R human
 
 ################################################################################
 # Create the CSV tables for the binders
 ################################################################################
 
-table_tmh_binders_raw.csv: create_table.R \
-             covid_binders.csv human_binders.csv
+table_tmh_binders_raw.csv: covid_binders.csv human_binders.csv
 	Rscript create_table_tmh_binders_raw.R
 
-table_1.csv: create_table.R \
-             covid_binders.csv human_binders.csv \
-             covid_coincidence.csv human_coincidence.csv
-	Rscript create_table.R mhc1
+table_tmh_binders_mhc1.csv: table_tmh_binders_raw.csv
+	Rscript create_table_tmh_binders_mhc.R mhc1
 
-table_2.csv: create_table.R \
-             covid_binders.csv human_binders.csv \
-             covid_coincidence.csv human_coincidence.csv
-	Rscript create_table.R mhc2
+table_tmh_binders_mhc2.csv: table_tmh_binders_raw.csv
+	Rscript create_table_tmh_binders_mhc.R mhc2
 
 ################################################################################
 # Create all LaTeX tables

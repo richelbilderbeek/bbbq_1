@@ -1,14 +1,14 @@
-# Predict the number of binders and the number of binders that are TMH
+# Count the number of binders and the number of binders that are TMH
 #
 # Usage:
 #
-#   Rscript predict_n_binders_tmh.R [target] [percentile = 0.2]
+#   Rscript count_binders_tmh.R [target] [percentile = 0.2]
 #
 # * [target]: either , 'covid', 'human', 'myco'
 #
 # For example:
 #
-#   Rscript predict_n_binders_tmh.R covid
+#   Rscript count_binders_tmh.R covid
 #
 library(testthat)
 

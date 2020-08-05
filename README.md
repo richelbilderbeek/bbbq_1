@@ -112,8 +112,8 @@ p1          |3        |1
 p2          |4        |2
 
 ```
-Rscript predict_n_coincidence_tmh.R covid
-Rscript predict_n_coincidence_tmh.R human
+Rscript count_coincidence_tmh.R covid
+Rscript count_coincidence_tmh.R human
 ```
 
 ### `[target]_binders.csv`
@@ -127,8 +127,8 @@ p1          |h2            |13         |7
 p2          |h2            |14         |8
 
 ```
-Rscript predict_n_binders_tmh.R covid
-Rscript predict_n_binders_tmh.R human
+Rscript count_binders_tmh.R covid
+Rscript count_binders_tmh.R human
 ```
 
 ### `table_tmh_binders_raw.csv`

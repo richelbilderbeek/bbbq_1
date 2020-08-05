@@ -4,7 +4,7 @@
 #
 # Usage:
 #
-#  Rscript create_table.R [MHC]
+#  Rscript create_table_tmh_binders_mhc.R [MHC]
 #
 #  * [MHC] is either 'mhc1' or 'mhc2'
 #
@@ -24,13 +24,40 @@ mhc_class <- stringr::str_sub(mhc, 4, 4)
 message("mhc_class: '", mhc_class, "'")
 
 
-haplotype_lut <- mhcnpreds::get_haplotype_lut()
+
+raw_table_filename <- "table_tmh_binders_raw.csv"
+testthat::expect_true(file.exists(raw_table_filename))
+t_raw <- readr::read_csv(raw_table_filename)
+
+# Create the BBBQ haplotype LUT
+haplotype_lut <- tibble::tibble(
+  formal_name = bbbq::get_mhc_haplotypes(),
+  id = NA,
+  mhc_class = NA
+)
+haplotype_lut$id <- paste0("h", seq(1, nrow(haplotype_lut)))
+haplotype_lut$haplotype <- mhcnuggetsr::to_mhcnuggets_names(haplotype_lut$formal_name)
+haplotype_lut
+# Find the haplotypes of the correct MHC class
 haplotype_lut$mhc_class[haplotype_lut$haplotype %in% mhcnuggetsr::get_mhc_1_haplotypes()] <- 1
 haplotype_lut$mhc_class[haplotype_lut$haplotype %in% mhcnuggetsr::get_mhc_2_haplotypes()] <- 2
-
 haplotype_ids <- haplotype_lut$id[haplotype_lut$mhc_class == mhc_class]
 
-targets <- c("covid", "human")
+library(dplyr)
+
+t_long <- t_raw %>% dplyr::filter(haplotype_id %in% haplotype_ids)
+t_long$f <- 100.0 * t_long$n_binders_tmh / t_long$n_binders
+t_long$f <- paste0(
+  format(t_long$f, digits = 4), " ",
+  "(", t_long$n_binders_tmh, "/", t_long$n_binders, ")"
+)
+t_long$haplotype <- NA
+for (i in seq_len(nrow(t_long))) {
+  t_long$haplotype[i] <- haplotype_lut$haplotype[t_long$haplotype_id[i] == haplotype_lut$id]
+}
+
+
+t_long
 
 # One tibble per target
 tibbles <- list()
