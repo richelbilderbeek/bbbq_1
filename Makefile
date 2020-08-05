@@ -236,6 +236,11 @@ test_conversion:
 	python3 -m csv2latex
 	mv bbbq_1_stats_covid.latex 2.latex
 
+update_packages:
+	Rscript -e 'remotes::install_github("richelbilderbeek/mhcnuggetsr")
+	Rscript -e 'remotes::install_github("richelbilderbeek/mhcnpreds")
+	Rscript -e 'remotes::install_github("richelbilderbeek/bbbq")
+
 clean:
 	rm *.png *.latex *.pdf
 	echo "I kept the CSV files, as these are hard to calculate"
