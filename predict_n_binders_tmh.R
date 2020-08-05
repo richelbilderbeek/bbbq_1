@@ -83,7 +83,7 @@ for (i in seq_len(n_haplotypes)) {
   haplotype <- t_haplotypes$haplotype[t_haplotypes$haplotype_id == haplotype_id]
   haplotype
   ic50 <- mhcnpreds::get_ic50_threshold(
-    n_aas = peptide_length,
+    peptide_length = peptide_length,
     mhc_haplotype = mhcnuggetsr::to_mhcnuggets_name(haplotype),
     percentile = percentile
   )
