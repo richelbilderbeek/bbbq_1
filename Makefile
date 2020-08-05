@@ -18,10 +18,7 @@ peregrine: haplotypes.csv \
              covid_topology.csv human_topology.csv \
              covid_h26_ic50s.csv human_h26_ic50s.csv
 
-results: table_tmh_binders_mhc1.csv table_tmh_binders_mhc2.csv
-	echo "To create figures, run 'make figures'"
-
-pretty_results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex
+results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex
 	echo "To create figures, run 'make figures'"
 
 figures: table_1.csv table_2.csv
@@ -186,14 +183,14 @@ table_tmh_binders_mhc2.csv: table_tmh_binders_raw.csv
 # Create all LaTeX tables
 ################################################################################
 
-table_1.latex: table_1.csv table_2.csv
+table_tmh_binders_mhc1.latex: table_tmh_binders_mhc1.csv
 	python3 -m csv2latex
-	mv LaTeX/table_1.tex table_1.latex
+	mv LaTeX/table_tmh_binders_mhc1.tex table_tmh_binders_mhc1.latex
 	rm -rf LaTeX
 
-table_2.latex: table_1.csv table_2.csv
+table_tmh_binders_mhc2.latex: table_tmh_binders_mhc2.csv
 	python3 -m csv2latex
-	mv LaTeX/table_2.tex table_2.latex
+	mv LaTeX/table_tmh_binders_mhc2.tex table_tmh_binders_mhc2.latex
 	rm -rf LaTeX
 
 ################################################################################

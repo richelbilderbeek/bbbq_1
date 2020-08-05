@@ -28,3 +28,4 @@ human_topology.csv
 covid_h*.csv
 human_h*.csv
 covid_h1_ic50s.csv
+*.latex
