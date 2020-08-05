@@ -9,6 +9,7 @@
 #  * [MHC] is either 'mhc1' or 'mhc2'
 #
 
+library(dplyr)
 library(testthat)
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -30,22 +31,18 @@ testthat::expect_true(file.exists(raw_table_filename))
 t_raw <- readr::read_csv(raw_table_filename)
 
 # Create the BBBQ haplotype LUT
-haplotype_lut <- tibble::tibble(
-  formal_name = bbbq::get_mhc_haplotypes(),
-  id = NA,
-  mhc_class = NA
-)
-haplotype_lut$id <- paste0("h", seq(1, nrow(haplotype_lut)))
-haplotype_lut$haplotype <- mhcnuggetsr::to_mhcnuggets_names(haplotype_lut$formal_name)
-haplotype_lut
-# Find the haplotypes of the correct MHC class
-haplotype_lut$mhc_class[haplotype_lut$haplotype %in% mhcnuggetsr::get_mhc_1_haplotypes()] <- 1
-haplotype_lut$mhc_class[haplotype_lut$haplotype %in% mhcnuggetsr::get_mhc_2_haplotypes()] <- 2
-haplotype_ids <- haplotype_lut$id[haplotype_lut$mhc_class == mhc_class]
+haplotypes_filename <- "haplotypes.csv"
+message("haplotypes_filename: '", haplotypes_filename, "'")
+expect_true(file.exists(haplotypes_filename))
+t_haplotypes <- readr::read_csv(haplotypes_filename)
+t_haplotypes$name <- mhcnuggetsr::to_mhcnuggets_names(t_haplotypes$haplotype)
+t_haplotypes$mhc_class <- NA
+t_haplotypes$mhc_class[t_haplotypes$name %in% mhcnuggetsr::get_mhc_1_haplotypes()] <- 1
+t_haplotypes$mhc_class[t_haplotypes$name %in% mhcnuggetsr::get_mhc_2_haplotypes()] <- 2
+# Only keep the desired MHC class
+t_haplotypes <- t_haplotypes %>% filter(mhc_class == mhc_class)
 
-library(dplyr)
-
-t_long <- t_raw %>% dplyr::filter(haplotype_id %in% haplotype_ids)
+t_long <- t_raw %>% dplyr::filter(haplotype_id %in% t_haplotypes$haplotype_id)
 t_long$f <- 100.0 * t_long$n_binders_tmh / t_long$n_binders
 t_long$f <- paste0(
   format(t_long$f, digits = 4), " ",
@@ -53,81 +50,19 @@ t_long$f <- paste0(
 )
 t_long$haplotype <- NA
 for (i in seq_len(nrow(t_long))) {
-  t_long$haplotype[i] <- haplotype_lut$haplotype[t_long$haplotype_id[i] == haplotype_lut$id]
+  id <- t_long$haplotype_id[i]
+  t_long$haplotype[i] <- t_haplotypes$haplotype[id == t_haplotypes$haplotype_id]
 }
+t_long <- t_long %>% dplyr::select(target, haplotype, f)
 
-
-t_long
-
-# One tibble per target
-tibbles <- list()
-
-for (target in targets) {
-  coincidence_filename <- paste0(target, "_coincidence.csv")
-  testthat::expect_true(file.exists(coincidence_filename))
-  binders_filename <- paste0(target, "_binders.csv")
-  testthat::expect_true(file.exists(binders_filename))
-  t_coincidence <- readr::read_csv(coincidence_filename)
-
-  t_binders <- readr::read_csv(binders_filename)
-  t_binders
-}
-
-
-
-
-all_target_haplotype_files <- stringr::str_subset(
-  all_csv_files,
-  paste0(".*_h[:digit:]{1,3}_ic50s")
-)
-all_target_haplotype_files
-
-mhc_files <- rep(NA, length(all_csv_files))
-for (i in seq_along(all_csv_files)) {
-
-}
-
-# Only select files for one MHC class,
-# which always start as, for example, "mhc1_"
-mhc_files <- stringr::str_subset(
-  all_csv_files,
-  paste0("^", mhc, "_")
-)
-
-library(magrittr)
-library(dplyr)
-tibbles <- list()
-
-for (i in seq_along(mhc_files)) {
-
-  mhc_file <- mhc_files[i]
-
-  t <- readr::read_csv(
-    file = mhc_file,
-    col_types = readr::cols(
-      haplotype = readr::col_character(),
-      n_binders = readr::col_double(),
-      n_binders_tmh = readr::col_double()
-    )
-  )
-  t$f <- 100.0 * t$n_binders_tmh / t$n_binders
-  t$f <- paste0(
-    format(t$f, digits = 4), " ",
-    "(", t$n_binders_tmh, "/", t$n_binders, ")"
-  )
-  t <- t %>% dplyr::select(haplotype, f)
-  t$target <- stringr::str_match(mhc_file, "^mhc._(.*).csv$")[2]
-  tibbles[[i]] <- t
-}
-
-# Long form
-t <- dplyr::bind_rows(tibbles)
+names(t_long)
+t_long$target <- as.factor(t_long$target)
 
 # Wide form
-t <- tidyr::pivot_wider(
-  t,
+t_wide <- tidyr::pivot_wider(
+  t_long,
   names_from = "target",
   values_from = "f"
 )
-filename <- paste0("table_", mhc_class, ".csv")
-readr::write_csv(t, filename)
+filename <- paste0("table_tmh_binders_mhc", mhc_class, ".csv")
+readr::write_csv(t, t_wide)

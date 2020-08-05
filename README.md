@@ -145,3 +145,18 @@ human   |h2            |38         |23
 Rscript create_table_tmh_binders_raw.R
 ```
 
+### `table_tmh_binders_mhc[mhc_class].csv`
+
+Pretty-printed version
+
+`haplotype`|`covid`      |`human`
+-----------|-------------|-------------
+HLA-A*01:01| 38.46 (5/13)| 25.00 (5/20)
+HLA-B*39:01| 100.00 (2/2)|58.33 (14/24)
+HLA-B*40:02|  55.56 (5/9)| 29.17 (7/24)
+
+```
+Rscript create_table_tmh_binders_mhc.R mhc1
+Rscript create_table_tmh_binders_mhc.R mhc21
+```
+

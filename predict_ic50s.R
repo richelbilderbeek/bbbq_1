@@ -30,6 +30,10 @@ haplotypes_filename <- "haplotypes.csv"
 message("haplotypes_filename: '", haplotypes_filename, "'")
 expect_true(file.exists(haplotypes_filename))
 
+t_haplotypes <- readr::read_csv(haplotypes_filename)
+haplotype <- t_haplotypes$haplotype[t_haplotypes$haplotype_id == haplotype_id]
+message("'haplotype' (formal name): ", haplotype)
+
 peptides_filename <- paste0(target_name, "_peptides.csv")
 message("peptides_filename: '", peptides_filename, "'")
 expect_true(file.exists(peptides_filename))
@@ -42,14 +46,12 @@ if (file.exists(target_filename)) {
   q()
 }
 
-t_haplotypes <- readr::read_csv(haplotypes_filename)
-haplotype <- t_haplotypes$haplotype[t_haplotypes$haplotype_id == haplotype_id]
-
 t_peptides <- readr::read_csv(peptides_filename)
 
 mhcnuggets_options <- mhcnuggetsr::create_mhcnuggets_options(
   mhc = mhcnuggetsr::to_mhcnuggets_name(haplotype)
 )
+message("'mhcnuggets_options$mhc' (MHCnuggets filename): ", mhcnuggets_options$mhc)
 
 t_ic50s <- mhcnuggetsr::predict_ic50(
   mhcnuggets_options = mhcnuggets_options,
