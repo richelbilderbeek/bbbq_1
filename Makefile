@@ -20,6 +20,7 @@ peregrine: haplotypes.csv \
 
 results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex
 	echo "To create figures, run 'make figures'"
+	Rscript fix_table_captions_and_labels.R
 
 figures: table_1.csv table_2.csv
 	Rscript create_figure.R mhc1
