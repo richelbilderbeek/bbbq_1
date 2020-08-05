@@ -36,9 +36,9 @@ if (file.exists(target_filename)) {
 uniprot_id <- NA
 
 if (target_name == "covid") {
-  uniprot_id <- "UP000464024_test"
+  uniprot_id <- "UP000464024"
 } else if (target_name == "human") {
-  uniprot_id <- "UP000005640_test"
+  uniprot_id <- "UP000005640"
 } else {
   stop("Unknown target '", target, "'")
 }
