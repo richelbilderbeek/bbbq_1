@@ -162,3 +162,17 @@ Rscript create_table_tmh_binders_mhc.R mhc1
 Rscript create_table_tmh_binders_mhc.R mhc21
 ```
 
+### `table_f_tmh.latex`
+
+`[target]_coincidence.csv` must be present
+
+`parameter`|`[target]
+-----------|---------
+n_spots    |1230
+n_tmhs     |123
+%TMH       |10
+
+```
+Rscript create_table_f_tmh.R
+```
+

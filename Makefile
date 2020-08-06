@@ -10,7 +10,7 @@
 #   make results
 #
 
-all: table_ic50_binders.latex
+all:
 	echo "Run either 'make peregrine' on Peregrine, to create the data"
 	echo "or run either 'make results' locally, to create the results"
 
@@ -30,8 +30,9 @@ myco_results: myco_coincidence.csv myco_binders.csv
 
 results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
          fig_f_tmh_mhc1.png fig_f_tmh_mhc2.png \
-         fig_ic50_distribution.png
-	Rscript fix_table_captions_and_labels.R
+         fig_ic50_distribution.png \
+         table_ic50_binders.latex \
+         table_f_tmh.latex
 
 ################################################################################
 #
@@ -246,6 +247,9 @@ table_tmh_binders_mhc2.latex: table_tmh_binders_raw.csv
 # Easy and general table
 table_ic50_binders.latex: haplotypes.csv
 	Rscript create_table_ic50_binders.R
+
+table_f_tmh.latex:
+	Rscript create_table_f_tmh.R
 
 ################################################################################
 # Create the figures
