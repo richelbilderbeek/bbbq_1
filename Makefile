@@ -20,7 +20,7 @@ covid_ic50s: covid_topology.csv covid_h26_ic50s.csv
 
 human_ic50s: human_topology.csv human_h26_ic50s.csv
 
-myco_ic50s: myco.fasta
+myco_ic50s: myco_topology.csv myco_h26_ic50s.csv
 
 results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
          fig_f_tmh_mhc1.png fig_f_tmh_mhc2.png
