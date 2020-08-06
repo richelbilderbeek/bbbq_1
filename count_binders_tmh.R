@@ -2,7 +2,7 @@
 #
 # Usage:
 #
-#   Rscript count_binders_tmh.R [target] [percentile = 0.2]
+#   Rscript count_binders_tmh.R [target]
 #
 # * [target]: either , 'covid', 'human', 'myco'
 #
@@ -17,7 +17,7 @@ if (length(args) == 0) {
   args <- c("covid")
 }
 if (length(args) == 1) {
-  args <- c(args, 0.02)
+  args <- c(args, bbbq::get_mhc2_ic50_threshold())
 }
 testthat::expect_equal(length(args), 2)
 message("Running with arguments '", args[1], "' and '", args[2], "'")

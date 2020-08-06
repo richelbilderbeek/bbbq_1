@@ -56,9 +56,10 @@ t$target <- as.factor(t$target)
 t$haplotype <- as.factor(t$haplotype)
 
 
-p <- ggplot(t, aes(x = haplotype, y = ic50, fill = target)) +
+ggplot(t, aes(x = haplotype, y = ic50, fill = target)) +
   scale_fill_manual(values = c("human" = "#ffffff", "covid" = "#cccccc")) +
   geom_boxplot(position = position_dodge(), color = "#000000") +
+  scale_y_log10() +
   xlab("Haplotype") +
   ylab("Estimated IC50 (nM)") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +

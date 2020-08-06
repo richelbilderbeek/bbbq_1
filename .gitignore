@@ -32,3 +32,4 @@ covid_h1_ic50s.csv
 fig_f_tmh_mhc*.png
 myco.fasta
 *.png
+table_ic50_binders.csv

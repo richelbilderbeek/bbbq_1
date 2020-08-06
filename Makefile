@@ -10,7 +10,7 @@
 #   make results
 #
 
-all:
+all: table_ic50_binders.latex
 	echo "Run either 'make peregrine' on Peregrine, to create the data"
 	echo "or run either 'make results' locally, to create the results"
 
@@ -242,6 +242,10 @@ table_tmh_binders_mhc2.csv: table_tmh_binders_raw.csv
 ################################################################################
 # Create all LaTeX tables
 ################################################################################
+
+# Easy and general table
+table_ic50_binders.latex: haplotypes.csv
+	Rscript create_table_ic50_binders.R
 
 table_tmh_binders_mhc1.latex: table_tmh_binders_mhc1.csv
 	python3 -m csv2latex
