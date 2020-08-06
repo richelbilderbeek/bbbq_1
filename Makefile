@@ -202,16 +202,25 @@ human_coincidence.csv:
 	echo "Expects 'human_peptides.csv' to be created by Peregrine"
 	Rscript count_coincidence_tmh.R human
 
+myco_coincidence.csv:
+	echo "Expects 'myco_topology.csv' to be created by Peregrine"
+	echo "Expects 'myco_peptides.csv' to be created by Peregrine"
+	Rscript count_coincidence_tmh.R myco
+
 ################################################################################
 # Binders
 ################################################################################
-covid_binders.csv:
+covid_binders.csv: haplotypes.csv
 	echo "Expects 'covid_h26_ic50s.csv' (and friends) to be created by Peregrine"
 	Rscript count_binders_tmh.R covid
 
-human_binders.csv:
+human_binders.csv: haplotypes.csv
 	echo "Expects 'human_h26_ic50s.csv' (and friends) to be created by Peregrine"
 	Rscript count_binders_tmh.R human
+
+myco_binders.csv: haplotypes.csv
+	echo "Expects 'myco_h26_ic50s.csv' (and friends) to be created by Peregrine"
+	Rscript count_binders_tmh.R myco
 
 ################################################################################
 # Create the CSV tables for the binders
