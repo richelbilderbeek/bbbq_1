@@ -23,6 +23,7 @@ message("mhc: '", mhc, "'")
 expect_equal(4, stringr::str_length(mhc))
 mhc_class <- stringr::str_sub(mhc, 4, 4)
 message("mhc_class: '", mhc_class, "'")
+the_mhc_class <- mhc_class # Needed for filtering later
 
 target_csv_filename <- paste0("table_tmh_binders_mhc", mhc_class, ".csv")
 message("target_csv_filename: '", target_csv_filename, "'")
@@ -48,7 +49,7 @@ t_haplotypes$mhc_class <- NA
 t_haplotypes$mhc_class[t_haplotypes$name %in% mhcnuggetsr::get_mhc_1_haplotypes()] <- 1
 t_haplotypes$mhc_class[t_haplotypes$name %in% mhcnuggetsr::get_mhc_2_haplotypes()] <- 2
 # Only keep the desired MHC class
-t_haplotypes <- t_haplotypes %>% filter(mhc_class == mhc_class)
+t_haplotypes <- t_haplotypes %>% filter(mhc_class == the_mhc_class)
 
 t_long <- t_raw %>% dplyr::filter(haplotype_id %in% t_haplotypes$haplotype_id)
 t_long$f <- 100.0 * t_long$n_binders_tmh / t_long$n_binders
