@@ -29,7 +29,8 @@ human_results: human_coincidence.csv human_binders.csv
 myco_results: myco_coincidence.csv myco_binders.csv
 
 results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
-         fig_f_tmh_mhc1.png fig_f_tmh_mhc2.png
+         fig_f_tmh_mhc1.png fig_f_tmh_mhc2.png \
+         fig_ic50_distribution.png
 	Rscript fix_table_captions_and_labels.R
 
 ################################################################################
@@ -74,12 +75,15 @@ myco_proteins.csv: myco.fasta
 # Topology, using sbatch
 ################################################################################
 
+# 3 mins
 covid_topology.csv: covid_proteins.csv
 	sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R covid
 
+# 3 hours
 human_topology.csv: human_proteins.csv
 	sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R human
 
+# 3 days?
 myco_topology.csv: myco_proteins.csv
 	sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R myco
 
@@ -261,6 +265,8 @@ fig_f_tmh_mhc2.png: table_tmh_binders_raw.csv \
                     covid_coincidence.csv human_coincidence.csv 
 	time Rscript create_figure.R mhc2
 
+fig_ic50_distribution.png: covid_h26_ic50s.csv haplotypes.csv
+	Rscript create_fig_ic50_distribution.R
 
 #fig_bbbq_1.png: bbbq_1.Rmd
 #	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
