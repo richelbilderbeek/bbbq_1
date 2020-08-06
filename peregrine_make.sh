@@ -12,7 +12,7 @@
 #
 #
 # Peregrine directives:
-#SBATCH --time=24:00:00
+#SBATCH --time=80:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --ntasks=1
