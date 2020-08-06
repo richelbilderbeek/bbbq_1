@@ -39,6 +39,8 @@ if (target_name == "covid") {
   uniprot_id <- "UP000464024"
 } else if (target_name == "human") {
   uniprot_id <- "UP000005640"
+} else if (target_name == "myco") {
+  uniprot_id <- "UP000001584"
 } else {
   stop("Unknown target '", target, "'")
 }

@@ -14,9 +14,13 @@ all:
 	echo "Run either 'make peregrine' on Peregrine, to create the data"
 	echo "or run either 'make results' locally, to create the results"
 
-peregrine: haplotypes.csv \
-             covid_topology.csv human_topology.csv \
-             covid_h26_ic50s.csv human_h26_ic50s.csv
+peregrine: covid_ic50s human_ic50s myco_ic50s
+
+covid_ic50s: covid_topology.csv covid_h26_ic50s.csv
+
+human_ic50s: human_topology.csv human_h26_ic50s.csv
+
+myco_ic50s: myco.fasta
 
 results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
          fig_f_tmh_mhc1.png fig_f_tmh_mhc2.png
@@ -44,6 +48,9 @@ covid.fasta:
 human.fasta:
 	Rscript get_proteome.R human
 
+myco.fasta:
+	Rscript get_proteome.R myco
+
 ################################################################################
 # Proteins
 ################################################################################
@@ -53,6 +60,9 @@ covid_proteins.csv: covid.fasta
 
 human_proteins.csv: human.fasta
 	Rscript create_proteins.R human
+
+myco_proteins.csv: myco.fasta
+	Rscript create_proteins.R myco
 
 ################################################################################
 # Topology, using sbatch
@@ -64,6 +74,9 @@ covid_topology.csv: covid_proteins.csv
 human_topology.csv: human_proteins.csv
 	sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R human
 
+myco_topology.csv: myco_proteins.csv
+	sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R myco
+
 ################################################################################
 # Peptides
 ################################################################################
@@ -73,6 +86,9 @@ covid_peptides.csv: covid_proteins.csv
 
 human_peptides.csv: human_proteins.csv
 	Rscript create_peptides.R human
+
+myco_peptides.csv: myco_proteins.csv
+	Rscript create_peptides.R myco
 
 ################################################################################
 # IC50s, using sbatch
@@ -132,6 +148,34 @@ human_h26_ic50s.csv: human_peptides.csv haplotypes.csv
 	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h24
 	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h25
 	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R human h26
+
+myco_h26_ic50s.csv: myco_peptides.csv haplotypes.csv
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h1
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h2
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h3
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h4
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h5
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h6
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h7
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h8
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h9
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h10
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h11
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h12
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h13
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h14
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h15
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h16
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h17
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h18
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h19
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h20
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h21
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h22
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h23
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h24
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h25
+	sbatch ../../peregrine/scripts/run_r_script.sh predict_ic50s.R myco h26
 
 ################################################################################
 #
