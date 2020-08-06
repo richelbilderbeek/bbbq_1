@@ -24,6 +24,14 @@ expect_equal(4, stringr::str_length(mhc))
 mhc_class <- stringr::str_sub(mhc, 4, 4)
 message("mhc_class: '", mhc_class, "'")
 
+target_csv_filename <- paste0("table_tmh_binders_mhc", mhc_class, ".csv")
+message("target_csv_filename: '", target_csv_filename, "'")
+
+target_latex_filename <- paste0("table_tmh_binders_mhc", mhc_class, ".latex")
+message("target_latex_filename: '", target_latex_filename, "'")
+
+percentile <- bbbq::get_ic50_percentile_binder()
+message("'percentile': '", percentile, "' (as hard-coded by BBBQ)")
 
 
 raw_table_filename <- "table_tmh_binders_raw.csv"
@@ -64,5 +72,21 @@ t_wide <- tidyr::pivot_wider(
   names_from = "target",
   values_from = "f"
 )
-filename <- paste0("table_tmh_binders_mhc", mhc_class, ".csv")
-readr::write_csv(t_wide, filename)
+readr::write_csv(t_wide, target_csv_filename)
+
+
+roman_mhc_class <- NA
+if (mhc_class == 1) roman_mhc_class <- "I"
+if (mhc_class == 2) roman_mhc_class <- "II"
+
+knitr::kable(
+  t_wide, "latex",
+  caption = paste0(
+    "Percentage of MHC-", roman_mhc_class, " epitopes overlapping with TMH. ",
+    "Values in brackets show the number of binders ",
+    "that have at least one residue overlapping with a TMH (first value)",
+    "as well as the number of binders (second value). ",
+    "Percentile used: ", percentile
+  ),
+  label = paste0("tmh_binders_mhc", mhc_class)
+) %>% cat(., file = target_latex_filename)

@@ -46,3 +46,4 @@ knitr::kable(
   ),
   label = "tab:ic50_binders"
 ) %>% cat(., file = latex_target_filename)
+

@@ -16,17 +16,14 @@ args <- commandArgs(trailingOnly = TRUE)
 if (length(args) == 0) {
   args <- c("covid")
 }
-if (length(args) == 1) {
-  args <- c(args, bbbq::get_mhc2_ic50_threshold())
-}
-testthat::expect_equal(length(args), 2)
-message("Running with arguments '", args[1], "' and '", args[2], "'")
+testthat::expect_equal(length(args), 1)
+message("Running with argument '", args[1], "'")
 
 target_name <- args[1]
 message("target_name: '", target_name, "'")
 
-percentile <- as.numeric(args[2])
-message("percentile: '", percentile, "'")
+percentile <- bbbq::get_ic50_percentile_binder()
+message("'percentile': '", percentile, "' (as hard-coded by BBBQ)")
 
 target_filename <- paste0(target_name, "_binders.csv")
 message("target_filename: '", target_filename, "'")

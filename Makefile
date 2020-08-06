@@ -233,10 +233,10 @@ myco_binders.csv: haplotypes.csv
 table_tmh_binders_raw.csv: covid_binders.csv myco_binders.csv
 	time Rscript create_table_tmh_binders_raw.R
 
-table_tmh_binders_mhc1.csv: table_tmh_binders_raw.csv
+table_tmh_binders_mhc1.latex: table_tmh_binders_raw.csv
 	time Rscript create_table_tmh_binders_mhc.R mhc1
 
-table_tmh_binders_mhc2.csv: table_tmh_binders_raw.csv
+table_tmh_binders_mhc2.latex: table_tmh_binders_raw.csv
 	time Rscript create_table_tmh_binders_mhc.R mhc2
 
 ################################################################################
@@ -246,16 +246,6 @@ table_tmh_binders_mhc2.csv: table_tmh_binders_raw.csv
 # Easy and general table
 table_ic50_binders.latex: haplotypes.csv
 	Rscript create_table_ic50_binders.R
-
-table_tmh_binders_mhc1.latex: table_tmh_binders_mhc1.csv
-	python3 -m csv2latex
-	mv LaTeX/table_tmh_binders_mhc1.tex table_tmh_binders_mhc1.latex
-	rm -rf LaTeX
-
-table_tmh_binders_mhc2.latex: table_tmh_binders_mhc2.csv
-	python3 -m csv2latex
-	mv LaTeX/table_tmh_binders_mhc2.tex table_tmh_binders_mhc2.latex
-	rm -rf LaTeX
 
 ################################################################################
 # Create the figures
