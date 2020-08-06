@@ -17,6 +17,7 @@ tibbles <- list()
 for (i in seq_along(targets)) {
   target <- targets[i]
   binders_filename <- paste0(target, "_binders.csv")
+  if (!file.exists(binders_filename)) next()
   testthat::expect_true(file.exists(binders_filename))
   t_binders <- readr::read_csv(binders_filename)
   t <- t_binders %>% dplyr::group_by(haplotype_id) %>%
