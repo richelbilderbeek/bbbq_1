@@ -9,7 +9,7 @@
 
 library(testthat)
 
-targets <- c("covid", "human")
+targets <- c("covid", "human", "myco")
 
 # One tibble per target
 tibbles <- list()

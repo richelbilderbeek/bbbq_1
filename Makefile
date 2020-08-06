@@ -22,6 +22,12 @@ human_ic50s: human_topology.csv human_h26_ic50s.csv
 
 myco_ic50s: myco_topology.csv myco_h26_ic50s.csv
 
+covid_results: covid_coincidence.csv covid_binders.csv
+
+human_results: human_coincidence.csv human_binders.csv
+
+myco_results: myco_coincidence.csv myco_binders.csv
+
 results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
          fig_f_tmh_mhc1.png fig_f_tmh_mhc2.png
 	Rscript fix_table_captions_and_labels.R
@@ -249,15 +255,6 @@ fig_f_tmh_mhc2.png: table_tmh_binders_raw.csv \
 
 #fig_bbbq_1.png: bbbq_1.Rmd
 #	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
-
-#bbbq_1_percentages.latex: bbbq_1_percentages.csv
-#	python3 -m csv2latex
-
-#bbbq_1_stats_covid.latex: bbbq_1_stats_covid.csv
-#	python3 -m csv2latex
-
-#bbbq_1_stats_myco.latex: bbbq_1_stats_myco.csv
-#	python3 -m csv2latex
 
 #bbbq_1_percentages.csv: bbbq_1.Rmd
 #	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
