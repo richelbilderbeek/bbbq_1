@@ -30,3 +30,4 @@ human_h*.csv
 covid_h1_ic50s.csv
 *.latex
 fig_f_tmh_mhc*.png
+myco.fasta
