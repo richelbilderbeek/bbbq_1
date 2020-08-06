@@ -195,45 +195,45 @@ myco_h26_ic50s.csv: myco_peptides.csv haplotypes.csv
 covid_coincidence.csv:
 	echo "Expects 'covid_topology.csv' to be created by Peregrine"
 	echo "Expects 'covid_peptides.csv' to be created by Peregrine"
-	Rscript count_coincidence_tmh.R covid
+	time Rscript count_coincidence_tmh.R covid
 
 human_coincidence.csv:
 	echo "Expects 'human_topology.csv' to be created by Peregrine"
 	echo "Expects 'human_peptides.csv' to be created by Peregrine"
-	Rscript count_coincidence_tmh.R human
+	time Rscript count_coincidence_tmh.R human
 
 myco_coincidence.csv:
 	echo "Expects 'myco_topology.csv' to be created by Peregrine"
 	echo "Expects 'myco_peptides.csv' to be created by Peregrine"
-	Rscript count_coincidence_tmh.R myco
+	time Rscript count_coincidence_tmh.R myco
 
 ################################################################################
 # Binders
 ################################################################################
 covid_binders.csv: haplotypes.csv
 	echo "Expects 'covid_h26_ic50s.csv' (and friends) to be created by Peregrine"
-	Rscript count_binders_tmh.R covid
+	time Rscript count_binders_tmh.R covid
 
 human_binders.csv: haplotypes.csv
 	echo "Expects 'human_h26_ic50s.csv' (and friends) to be created by Peregrine"
-	Rscript count_binders_tmh.R human
+	time Rscript count_binders_tmh.R human
 
 myco_binders.csv: haplotypes.csv
 	echo "Expects 'myco_h26_ic50s.csv' (and friends) to be created by Peregrine"
-	Rscript count_binders_tmh.R myco
+	time Rscript count_binders_tmh.R myco
 
 ################################################################################
 # Create the CSV tables for the binders
 ################################################################################
 
-table_tmh_binders_raw.csv: covid_binders.csv human_binders.csv
-	Rscript create_table_tmh_binders_raw.R
+table_tmh_binders_raw.csv: covid_binders.csv myco_binders.csv
+	time Rscript create_table_tmh_binders_raw.R
 
 table_tmh_binders_mhc1.csv: table_tmh_binders_raw.csv
-	Rscript create_table_tmh_binders_mhc.R mhc1
+	time Rscript create_table_tmh_binders_mhc.R mhc1
 
 table_tmh_binders_mhc2.csv: table_tmh_binders_raw.csv
-	Rscript create_table_tmh_binders_mhc.R mhc2
+	time Rscript create_table_tmh_binders_mhc.R mhc2
 
 ################################################################################
 # Create all LaTeX tables
@@ -255,11 +255,11 @@ table_tmh_binders_mhc2.latex: table_tmh_binders_mhc2.csv
 
 fig_f_tmh_mhc1.png: table_tmh_binders_raw.csv \
                     covid_coincidence.csv human_coincidence.csv 
-	Rscript create_figure.R mhc1
+	time Rscript create_figure.R mhc1
 
 fig_f_tmh_mhc2.png: table_tmh_binders_raw.csv \
                     covid_coincidence.csv human_coincidence.csv 
-	Rscript create_figure.R mhc2
+	time Rscript create_figure.R mhc2
 
 
 #fig_bbbq_1.png: bbbq_1.Rmd
@@ -271,17 +271,12 @@ fig_f_tmh_mhc2.png: table_tmh_binders_raw.csv \
 #table_1.csv: bbbq_1.Rmd
 #	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
 
-test_conversion:
-	csv2latex bbbq_1_stats_covid.csv --nohead > 1.latex
-	pip3 install --user csv2latex
-	python3 -m csv2latex
-	mv bbbq_1_stats_covid.latex 2.latex
-
 update_packages:
 	Rscript -e 'remotes::install_github("richelbilderbeek/mhcnuggetsr")'
 	Rscript -e 'remotes::install_github("richelbilderbeek/mhcnpreds")'
 	Rscript -e 'remotes::install_github("richelbilderbeek/bbbq")'
 
 clean:
-	rm *.png *.latex *.pdf
+	rm *.png *.latex *.pdf *.fasta
 	echo "I kept the CSV files, as these are hard to calculate"
+
