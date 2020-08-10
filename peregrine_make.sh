@@ -18,7 +18,7 @@
 #SBATCH --ntasks=1
 #SBATCH --mem=10G
 #SBATCH --job-name=peregrine_make
-#SBATCH --output=peregrine_make.log
+#SBATCH --output=peregrine_make_%j.log
 module load R Python
 echo "make $@"
 make "$@"

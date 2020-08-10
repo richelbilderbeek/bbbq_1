@@ -9,25 +9,33 @@
 #
 #   make results
 #
-
+.DELETE_ON_ERROR:
 all:
 	echo "Run either 'make peregrine' on Peregrine, to create the data"
 	echo "or run either 'make results' locally, to create the results"
 
+.DELETE_ON_ERROR:
 peregrine: covid_ic50s human_ic50s myco_ic50s
 
+.DELETE_ON_ERROR:
 covid_ic50s: covid_topology.csv covid_h26_ic50s.csv
 
+.DELETE_ON_ERROR:
 human_ic50s: human_topology.csv human_h26_ic50s.csv
 
+.DELETE_ON_ERROR:
 myco_ic50s: myco_topology.csv myco_h26_ic50s.csv
 
+.DELETE_ON_ERROR:
 covid_results: covid_coincidence.csv covid_binders.csv
 
+.DELETE_ON_ERROR:
 human_results: human_coincidence.csv human_binders.csv
 
+.DELETE_ON_ERROR:
 myco_results: myco_coincidence.csv myco_binders.csv
 
+.DELETE_ON_ERROR:
 results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
          fig_f_tmh_mhc1.png fig_f_tmh_mhc2.png \
          fig_ic50_distribution.png \
@@ -256,23 +264,17 @@ table_f_tmh.latex:
 ################################################################################
 
 fig_f_tmh_mhc1.png: table_tmh_binders_raw.csv \
-                    covid_coincidence.csv human_coincidence.csv 
+                    covid_coincidence.csv myco_coincidence.csv 
 	time Rscript create_figure.R mhc1
 
 fig_f_tmh_mhc2.png: table_tmh_binders_raw.csv \
-                    covid_coincidence.csv human_coincidence.csv 
+                    covid_coincidence.csv myco_coincidence.csv 
 	time Rscript create_figure.R mhc2
 
 fig_ic50_distribution.png: covid_h26_ic50s.csv haplotypes.csv
 	Rscript create_fig_ic50_distribution.R
 
-#fig_bbbq_1.png: bbbq_1.Rmd
-#	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
-
 #bbbq_1_percentages.csv: bbbq_1.Rmd
-#	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
-
-#table_1.csv: bbbq_1.Rmd
 #	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'
 
 update_packages:
