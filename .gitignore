@@ -33,3 +33,10 @@ fig_f_tmh_mhc*.png
 myco.fasta
 *.png
 table_ic50_binders.csv
+*.log
+myco_h*.csv
+myco_binders.csv
+myco_peptides.csv
+myco_proteins.csv
+myco_topology.csv
+covid_binders.csv

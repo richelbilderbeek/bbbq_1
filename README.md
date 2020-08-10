@@ -102,9 +102,9 @@ sbatch Rscript predict_ic50s.R covid h15
 
 ### 2. `make results`
 
-### `[target]_coincidence.csv
+Run this locally.
 
-Per protein, counts the spots and TMH spots
+### `[target]_coincidence.csv
 
 `protein_id`|`n_spots`|`n_spots_tmh`
 ------------|---------|-------------
@@ -117,8 +117,6 @@ Rscript count_coincidence_tmh.R human
 ```
 
 ### `[target]_binders.csv`
-
-For all proteins, counts the number of binders and the number of TMHs that are TMH
 
 `protein_id`|`haplotype_id`|`n_binders`|`n_binders_tmh`
 ------------|--------------|-----------|---------------
@@ -160,19 +158,5 @@ HLA-B*40:02|  55.56 (5/9)| 29.17 (7/24)
 ```
 Rscript create_table_tmh_binders_mhc.R mhc1
 Rscript create_table_tmh_binders_mhc.R mhc21
-```
-
-### `table_f_tmh.latex`
-
-`[target]_coincidence.csv` must be present
-
-`parameter`|`[target]
------------|---------
-n_spots    |1230
-n_tmhs     |123
-%TMH       |10
-
-```
-Rscript create_table_f_tmh.R
 ```
 
