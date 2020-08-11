@@ -98,109 +98,20 @@ Calls:
 [call] create_counts.R myco h1 p2
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### `[target]_peptides.csv`
-
-`protein_id`|`start_pos` |`peptide`
-------------|------------|------------
-p1          |1           |AAACCCVVVV
-
-```
-Rscript create_peptides.R covid
-Rscript create_peptides.R human
-```
-
-#### `[target]_topology.csv`
-
-`protein_id`|`topology`
-------------|----------------------------------------
-p1          |0000000000001111111111111000000000000000
-p2          |00000000000000000000000000
-
-```
-Rscript create_topology.R covid
-Rscript create_topology.R myco
-```
-
-#### `[target]_[haplotype_id]_ic50s.csv`
-
-`protein_id`|`start_pos` |`ic50`
-------------|------------|----------
-p1          |1           |123.456
-p1          |2           |234.567
-
-:warning: Use `sbatch` to generate these files
-
-```
-sbatch Rscript predict_ic50s.R covid h1
-sbatch Rscript predict_ic50s.R covid h2
-...
-sbatch Rscript predict_ic50s.R covid h14
-sbatch Rscript predict_ic50s.R covid h15
-...
-```
-
 ### 2. `make results`
 
-Run this locally.
+Run this after `make peregrine`
 
-### `[target]_coincidence.csv
+### `counts.csv`
 
-`protein_id`|`n_spots`|`n_spots_tmh`
-------------|---------|-------------
-p1          |3        |1
-p2          |4        |2
+`target`|`haplotype_id`|`protein_id`|`n_binders`|`n_binders_tmh`|`n_spots`|`n_spots_tmh`
+--------|--------------|------------|-----------|---------------|---------|-------------
+covid   |h1            |p1          |11         |5              |100      |20
+covid   |h1            |p2          |12         |6              |101      |20
 
-```
-Rscript count_coincidence_tmh.R covid
-Rscript count_coincidence_tmh.R human
-```
-
-### `[target]_binders.csv`
-
-`protein_id`|`haplotype_id`|`n_binders`|`n_binders_tmh`
-------------|--------------|-----------|---------------
-p1          |h1            |11         |5
-p2          |h1            |12         |6
-...         |...           |...        |
-p1          |h2            |13         |7
-p2          |h2            |14         |8
 
 ```
-Rscript count_binders_tmh.R covid
-Rscript count_binders_tmh.R human
-```
-
-### `table_tmh_binders_raw.csv`
-
-`target`|`haplotype_id`|`n_binders`|`n_binders_tmh`
---------|--------------|-----------|---------------
-covid   |h1            |29         |12
-covid   |h2            |28         |13
-...     |...           |...        |...
-human   |h1            |39         |22
-human   |h2            |38         |23
-
-```
-Rscript create_table_tmh_binders_raw.R
+Rscript merge_all_counts.R
 ```
 
 ### `table_tmh_binders_mhc[mhc_class].csv`
@@ -215,6 +126,6 @@ HLA-B*40:02|  55.56 (5/9)| 29.17 (7/24)
 
 ```
 Rscript create_table_tmh_binders_mhc.R mhc1
-Rscript create_table_tmh_binders_mhc.R mhc21
+Rscript create_table_tmh_binders_mhc.R mhc2
 ```
 
