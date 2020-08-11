@@ -4,9 +4,16 @@ The first sub-question of the Bianchi, Bilderbeek and Bogaart Question.
 
  * :lock: [Full article](https://github.com/richelbilderbeek/bbbq_article)
 
+## Test workflow
+
+ * `make use_test_proteomes`
+ * `make`
+ * `make results`
+
 ## File structure
 
 I've separated this regarding the two `make` calls.
+
 
 ### 1. `make peregrine`
 
@@ -17,7 +24,7 @@ Creates all:
  * `[target]_[haplotype_id]_ic50s.csv`
  * `[target]_topology.csv`
 
-#### `haplotypes.csv`
+#### `haplotypes_lut.csv`
 
 `haplotype`  |`haplotype_id`|`mhc_class`
 -------------|--------------|-----------
@@ -47,7 +54,7 @@ Rscript get_proteome.R covid
 Rscript get_proteome.R human
 ```
 
-#### `[target]_proteins.csv`
+#### `[target]_proteins_lut.csv`
 
 `protein_id`|`protein`     |`sequence`
 ------------|--------------|----------------------------------------
@@ -59,6 +66,56 @@ Rscript create_proteins_lut.R covid
 Rscript create_proteins_lut.R human
 Rscript create_proteins_lut.R myco
 ```
+
+
+### `[target]_[haplotype_id]_[protein_id]_counts.csv`
+
+`haplotype_id`|`protein_id`|`n_binders`|`n_binders_tmh`|`n_spots`|`n_spots_tmh`
+--------------|------------|-----------|---------------|---------|-------------
+h1            |p1          |11         |5              |100      |20
+
+Note that `n_spots` and `n_spots_tmh` can vary, 
+due to MHC class-dependent epitope lengths.
+
+
+```
+Rscript create_all_counts.R
+```
+
+Calls:
+
+ * Locally: `Rscript create_counts.R [args]`
+ * On Peregine: `sbatch ../../peregrine/scripts/run_r_script.sh create_counts.R [args]`
+
+```
+[call] create_counts.R covid h1 p1
+[call] create_counts.R covid h1 p2
+...
+[call] create_counts.R covid h2 p1
+[call] create_counts.R covid h2 p2
+...
+[call] create_counts.R myco h1 p1
+[call] create_counts.R myco h1 p2
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #### `[target]_peptides.csv`
 
