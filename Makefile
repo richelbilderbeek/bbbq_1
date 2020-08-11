@@ -10,15 +10,17 @@
 #   make results
 #
 .DELETE_ON_ERROR:
-all:
+all: haplotypes_lut.csv\
+     covid_proteins_lut.csv human_proteins_lut.csv myco_proteins_lut.csv
 	echo "Run either 'make peregrine' on Peregrine, to create the data"
 	echo "or run either 'make results' locally, to create the results"
 
+# Create the test proteomes
 .DELETE_ON_ERROR:
 use_test_proteomes:
-	cp test_proteomes/covid_test.fasta covid.fasta
-	cp test_proteomes/human_test.fasta human.fasta
-	cp test_proteomes/myco_test.fasta myco.fasta
+	Rscript get_proteome.R test_covid
+	Rscript get_proteome.R test_human
+	Rscript get_proteome.R test_myco
 
 .DELETE_ON_ERROR:
 peregrine: covid_ic50s human_ic50s myco_ic50s
@@ -57,8 +59,8 @@ results: table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
 ################################################################################
 # Haplotypes
 ################################################################################
-haplotypes.csv:
-	Rscript create_haplotypes.R
+haplotypes_lut.csv:
+	Rscript create_haplotypes_lut.R
 
 ################################################################################
 # Targets
@@ -74,17 +76,17 @@ myco.fasta:
 	Rscript get_proteome.R myco
 
 ################################################################################
-# Proteins
+# Protein LUT
 ################################################################################
 
-covid_proteins.csv: covid.fasta
-	Rscript create_proteins.R covid
+covid_proteins_lut.csv: covid.fasta
+	Rscript create_proteins_lut.R covid
 
-human_proteins.csv: human.fasta
-	Rscript create_proteins.R human
+human_proteins_lut.csv: human.fasta
+	Rscript create_proteins_lut.R human
 
-myco_proteins.csv: myco.fasta
-	Rscript create_proteins.R myco
+myco_proteins_lut.csv: myco.fasta
+	Rscript create_proteins_lut.R myco
 
 ################################################################################
 # Topology, using sbatch

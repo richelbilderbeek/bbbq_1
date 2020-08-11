@@ -33,6 +33,27 @@ if (file.exists(target_filename)) {
   q()
 }
 
+if (target_name == "test_covid") {
+  file.copy(
+    from = bbbq::get_test_covid_proteome_filename(),
+    to = "covid.fasta"
+  )
+  q()
+} else if (target_name == "test_human") {
+  file.copy(
+    from = bbbq::get_test_human_proteome_filename(),
+    to = "human.fasta"
+  )
+  q()
+} else if (target_name == "test_myco") {
+  file.copy(
+    from = bbbq::get_test_myco_proteome_filename(),
+    to = "myco.fasta"
+  )
+  q()
+}
+
+
 uniprot_id <- NA
 
 if (target_name == "covid") {
