@@ -28,7 +28,7 @@ message("'percentile': '", percentile, "' (as hard-coded by BBBQ)")
 target_filename <- paste0(target_name, "_binders.csv")
 message("target_filename: '", target_filename, "'")
 
-haplotypes_filename <- "haplotypes.csv"
+haplotypes_filename <- "haplotypes_lut.csv"
 testthat::expect_true(file.exists(haplotypes_filename))
 t_haplotypes <- readr::read_csv(haplotypes_filename)
 

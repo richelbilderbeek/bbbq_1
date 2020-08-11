@@ -30,9 +30,8 @@ peregrine: haplotypes_lut.csv \
 results: counts.csv \
          table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
          fig_f_tmh_mhc1.png fig_f_tmh_mhc2.png \
-         #fig_ic50_distribution.png \
-         #table_ic50_binders.latex \
-         #table_f_tmh.latex
+         table_ic50_binders.latex \
+         table_f_tmh.latex
 
 ################################################################################
 #
@@ -105,7 +104,7 @@ table_tmh_binders_mhc2.latex: counts.csv
 ################################################################################
 
 # Easy and general table
-table_ic50_binders.latex: haplotypes.csv
+table_ic50_binders.latex: haplotypes_lut.csv
 	Rscript create_table_ic50_binders.R
 
 table_f_tmh.latex:
@@ -120,9 +119,6 @@ fig_f_tmh_mhc1.png: counts.csv
 
 fig_f_tmh_mhc2.png: counts.csv
 	Rscript create_figure.R mhc2
-
-fig_ic50_distribution.png: covid_h26_ic50s.csv haplotypes.csv
-	Rscript create_fig_ic50_distribution.R
 
 #bbbq_1_percentages.csv: bbbq_1.Rmd
 #	Rscript -e 'rmarkdown::render("bbbq_1.Rmd")'

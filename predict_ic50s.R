@@ -5,7 +5,7 @@
 #   Rscript predict_ic50s.R [target] [haplotype_id]
 #
 # * [target]: either 'covid', 'human', 'myco'
-# * [haplotype_id]: a haplotype ID as stored in 'haplotypes.csv'
+# * [haplotype_id]: a haplotype ID as stored in 'haplotypes_lut.csv'
 #
 # For example:
 #
@@ -26,7 +26,7 @@ haplotype_id <- args[2]
 message("target_name: '", target_name, "'")
 message("haplotype_id: '", haplotype_id, "'")
 
-haplotypes_filename <- "haplotypes.csv"
+haplotypes_filename <- "haplotypes_lut.csv"
 message("haplotypes_filename: '", haplotypes_filename, "'")
 expect_true(file.exists(haplotypes_filename))
 

@@ -12,45 +12,62 @@
 #
 #  * File named 'table_f_tmh.latex'
 #
-library(testthat)
+library(testthat, warn.conflicts = FALSE)
+library(dplyr, warn.conflicts = FALSE)
 
 target_latex_filename <- "table_f_tmh.latex"
 message("'target_latex_filename': '", target_latex_filename, "'")
 
-targets <- c("covid", "myco", "human")
+haplotypes_filename <- "haplotypes_lut.csv"
+message("'haplotypes_filename': '", haplotypes_filename, "'")
+testthat::expect_true(file.exists(haplotypes_filename))
+t_haplotypes <- readr::read_csv(
+  haplotypes_filename,
+  col_types = readr::cols(
+    haplotype = readr::col_character(),
+    mhc_class = readr::col_double(),
+    haplotype_id = readr::col_character()
+  )
+)
 
-library(dplyr)
-tibbles <- list()
+t <- readr::read_csv("counts.csv",
+  col_types = readr::cols(
+    target = readr::col_character(),
+    haplotype_id = readr::col_character(),
+    protein_id = readr::col_character(),
+    n_binders = readr::col_skip(),
+    n_binders_tmh = readr::col_skip(),
+    n_spots = readr::col_double(),
+    n_spots_tmh = readr::col_double()
+  )
+)
 
-for (i in seq_along(targets)) {
-  target <- targets[i]
-  filename <- paste0(target, "_coincidence.csv")
-  if (!file.exists(filename)) next
-  t <- readr::read_csv(filename)
-  t$protein_id <- as.factor(t$protein_id)
-  t <- t %>%
-    dplyr::summarise(
-      n_spots = sum(n_spots),
-      n_spots_tmh = sum(n_spots_tmh),
-      .groups = "keep"
-    )
-  t$target <- target
-  tibbles[[i]] <- t
+# Group by proteins
+t <- t %>% dplyr::group_by(target, haplotype_id) %>%
+  dplyr::summarise(
+    n_spots = sum(n_spots),
+    n_spots_tmh = sum(n_spots_tmh),
+    .groups = "keep"
+  )
+
+# Add mhc_class
+t$mhc_class <- NA
+for (i in seq_len(nrow(t))) {
+  t$mhc_class[i] <- t_haplotypes$mhc_class[t_haplotypes$haplotype_id == t$haplotype_id[i] ]
 }
 
-t <- dplyr::bind_rows(tibbles)
-t$target <- as.factor(t$target)
+# Group by proteins
+t <- t %>% dplyr::group_by(target, mhc_class) %>%
+  dplyr::summarise(
+    n_spots = mean(n_spots),
+    n_spots_tmh = mean(n_spots_tmh),
+    .groups = "keep"
+  )
 
-t_wide <- tidyr::pivot_wider(
-  t,
-  values_from = c(n_spots, n_spots_tmh)
-)
-names(t_wide) <- stringr::str_replace(names(t_wide), "_$", "")
-names(t_wide)
-t_wide$f_tmh <- format(100.0 * (t$n_spots_tmh / t$n_spots), digits = 3)
+t$f_tmh <- format(100.0 * (t$n_spots_tmh / t$n_spots), digits = 3)
 
 knitr::kable(
-  t_wide, "latex",
+  t, "latex",
   caption = paste0(
     "Percentage of spots and spots that overlap with a TMH"
   ),
