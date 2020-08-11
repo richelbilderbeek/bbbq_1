@@ -31,11 +31,25 @@ target_filename <- paste0(
 )
 
 # Look up peptide
-t_protein_lut <- readr::read_csv(protein_lut_filename)
+t_protein_lut <- readr::read_csv(
+  protein_lut_filename,
+  col_types = readr::cols(
+    protein_id = readr::col_character(),
+    protein = readr::col_character(),
+    sequence = readr::col_character()
+  )
+)
 peptide <- t_protein_lut$sequence[t_protein_lut$protein_id == protein_id]
 
 # Look up haplotype
-t_haplotype_lut <- readr::read_csv(haplotype_lut_filename)
+t_haplotype_lut <- readr::read_csv(
+  haplotype_lut_filename,
+  col_types = readr::cols(
+    haplotype = readr::col_character(),
+    mhc_class = readr::col_double(),
+    haplotype_id = readr::col_character()
+  )
+)
 haplotype <- t_haplotype_lut$haplotype[t_haplotype_lut$haplotype_id == haplotype_id]
 peptide_length <- bbbq::get_mhc_peptide_length(
   t_haplotype_lut$mhc_class[t_haplotype_lut$haplotype_id == haplotype_id]
