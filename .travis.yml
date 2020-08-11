@@ -13,6 +13,9 @@ r_github_packages:
   - richelbilderbeek/mhcnuggetsr
   - richelbilderbeek/mhcnpreds
   - richelbilderbeek/bbbq
+
+before_install:
+  - sudo apt install -qq libmpfr-dev
  
 after_install:
   - sudo apt install r-cran-testthat r-cran-stringr r-cran-dplyr r-cran-readr r-cran-knitr r-cran-rcpp
