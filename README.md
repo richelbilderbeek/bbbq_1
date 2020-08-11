@@ -19,16 +19,16 @@ Creates all:
 
 #### `haplotypes.csv`
 
-`haplotype`  |`haplotype_id`
--------------|--------------
-HLA-A*01:01  |h1
-HLA-A*02:01  |h2
-...          |...
-HLA-DRB3*0101|h14
-HLA-DRB3*0202|h15
+`haplotype`  |`haplotype_id`|`mhc_class`
+-------------|--------------|-----------
+HLA-A*01:01  |h1            |1
+HLA-A*02:01  |h2            |1
+...          |...           |...
+HLA-DRB3*0101|h14           |2
+HLA-DRB3*0202|h15           |2
 
 ```
-Rscript create_haplotypes.R
+Rscript create_haplotypes_lut.R
 ```
 
 #### `[target].fasta`
@@ -55,8 +55,9 @@ p1          |Somethingine  |AAACCCVVVVAAACCCVVVVAAACCCVVVVAAACCCVVVV
 p2          |Somethingase  |AAACCCVVVVAAACCCVVVVAAACCC
 
 ```
-Rscript create_proteins.R covid
-Rscript create_proteins.R human
+Rscript create_proteins_lut.R covid
+Rscript create_proteins_lut.R human
+Rscript create_proteins_lut.R myco
 ```
 
 #### `[target]_peptides.csv`

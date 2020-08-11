@@ -27,21 +27,10 @@ proteome_filename <- paste0(target_name, ".fasta")
 message("proteome_filename: '", proteome_filename, "'")
 testthat::expect_true(file.exists(proteome_filename))
 
-target_filename <- paste0(target_name, "_proteins.csv")
+target_filename <- paste0(target_name, "_proteins_lut.csv")
 message("target_filename: '", target_filename, "'")
 
-proteome <- seqinr::read.fasta(
-  proteome_filename,
-  seqtype = "AA",
-  as.string = TRUE
-)
-
-t <- tibble::tibble(
-  protein = names(proteome),
-  sequence = as.character(proteome),
-  protein_id = NA
-)
-t$protein_id <- paste0("p", seq(1, nrow(t)))
+t <- bbbq::create_proteins_lut(proteome_filename)
 
 readr::write_csv(t, target_filename)
 testthat::expect_true(file.exists(target_filename))

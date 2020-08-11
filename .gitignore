@@ -40,3 +40,7 @@ myco_peptides.csv
 myco_proteins.csv
 myco_topology.csv
 covid_binders.csv
+covid_proteins_lut.csv
+human_proteins_lut.csv
+myco_proteins_lut.csv
+haplotypes_lut.csv
