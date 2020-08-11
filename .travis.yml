@@ -3,10 +3,11 @@ dist: bionic
 cache: packages
 
 r_github_packages:
+  - richelbilderbeek/beastier
+  - richelbilderbeek/pureseqtmr
+  - richelbilderbeek/mhcnuggetsr
+  - richelbilderbeek/mhcnpreds
   - richelbilderbeek/bbbq
-
-r_packages:
-  - beastier
 
 after_install:
   - sudo apt install r-cran-testthat r-cran-stringr r-cran-dplyr r-cran-readr r-cran-knitr r-cran-rcpp
