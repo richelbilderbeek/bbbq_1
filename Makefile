@@ -15,6 +15,12 @@ all:
 	echo "or run either 'make results' locally, to create the results"
 
 .DELETE_ON_ERROR:
+use_test_proteomes:
+	cp test_proteomes/covid_test.fasta covid.fasta
+	cp test_proteomes/human_test.fasta human.fasta
+	cp test_proteomes/myco_test.fasta myco.fasta
+
+.DELETE_ON_ERROR:
 peregrine: covid_ic50s human_ic50s myco_ic50s
 
 .DELETE_ON_ERROR:
@@ -84,17 +90,24 @@ myco_proteins.csv: myco.fasta
 # Topology, using sbatch
 ################################################################################
 
+# Creates all three topologies?
+#myco_topology.csv: myco_proteins.csv
+#	Rscript create_topologies.R
+
 # 3 mins
 covid_topology.csv: covid_proteins.csv
 	sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R covid
+	#sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R covid
 
 # 3 hours
 human_topology.csv: human_proteins.csv
 	sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R human
+	#sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R human
 
 # 3 days?
 myco_topology.csv: myco_proteins.csv
 	sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R myco
+	#sbatch ../../peregrine/scripts/run_r_script.sh create_topology.R myco
 
 ################################################################################
 # Peptides
@@ -280,7 +293,7 @@ fig_ic50_distribution.png: covid_h26_ic50s.csv haplotypes.csv
 update_packages:
 	Rscript -e 'remotes::install_github("richelbilderbeek/mhcnuggetsr")'
 	Rscript -e 'remotes::install_github("richelbilderbeek/mhcnpreds")'
-	Rscript -e 'remotes::install_github("richelbilderbeek/bbbq")'
+	Rscript -e 'remotes::install_github("richelbilderbeek/bbbq", ref = "develop")'
 
 clean:
 	rm *.png *.latex *.pdf *.fasta

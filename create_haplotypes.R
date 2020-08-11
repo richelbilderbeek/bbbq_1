@@ -5,12 +5,9 @@
 #   Rscript create_haplotypes.R
 
 target_filename <- "haplotypes.csv"
+message("'target_filename': ", target_filename)
 
-t <- tibble::tibble(
-  haplotype = bbbq::get_mhc_haplotypes(),
-  haplotype_id = NA
-)
-t$haplotype_id <- paste0("h", seq(1, nrow(t)))
+t <- bbbq::create_haplotypes_lut()
 
 readr::write_csv(t, target_filename)
 
