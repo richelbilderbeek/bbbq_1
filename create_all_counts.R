@@ -21,6 +21,8 @@ if (peregrine::is_on_peregrine()) {
 } else {
   call_cmd <- "Rscript"
 }
+n_jobs <- 0
+
 
 for (i in seq_along(targets)) {
   target <- targets[i]
@@ -49,9 +51,18 @@ for (i in seq_along(targets)) {
         "Creating filename '", target_filename, "' with: ",
         paste0(cmds, " ")
       )
-      try(
-        system2(command = cmds[1], args = cmds[-1])
+      try({
+          system2(command = cmds[1], args = cmds[-1])
+          n_jobs <- n_jobs + 1
+        }
       )
+      if (n_jobs == 987) {
+        stop(
+          "Started 987 jobs already. ",
+          "Run 'make peregrine' again after these jobs have finished"
+        )
+        q()
+      }
     }
   }
 
