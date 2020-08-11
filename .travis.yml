@@ -18,5 +18,6 @@ install:
   - sudo apt install r-cran-testthat r-cran-stringr r-cran-dplyr r-cran-readr r-cran-knitr r-cran-rcpp
 
 after_script:
+  - make use_test_proteomes_and_haplotypes
   - make
 
