@@ -15,7 +15,14 @@ r_github_packages:
   - richelbilderbeek/bbbq
 
 before_install:
-  - sudo apt install -qq libmpfr-dev
+  # From https://stackoverflow.com/a/20042195
+  - Rscript -e "update.packages(checkBuilt = TRUE, ask = FALSE)"
+  # ImageMagick
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo add-apt-repository -y ppa:opencpu/imagemagick; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get update; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install -y libmagick++-dev; fi
+  # Rmpfr
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt install -qq libmpfr-dev; fi
  
 after_install:
   - sudo apt install r-cran-testthat r-cran-stringr r-cran-dplyr r-cran-readr r-cran-knitr r-cran-rcpp
