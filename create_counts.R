@@ -59,7 +59,8 @@ t <- bbbq::predict_counts(
   peptide = peptide,
   haplotype = haplotype,
   peptide_length = peptide_length,
-  percentile = bbbq::get_ic50_percentile_binder()
+  percentile = bbbq::get_ic50_percentile_binder(),
+  verbose = TRUE
 )
 t$protein_id <- protein_id
 t <- dplyr::relocate(t, protein_id)

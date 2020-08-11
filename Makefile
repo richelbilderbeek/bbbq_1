@@ -309,6 +309,9 @@ update_packages:
 	Rscript -e 'remotes::install_github("richelbilderbeek/bbbq", ref = "develop")'
 
 clean:
-	rm *.png *.latex *.pdf *.fasta
+	rm -f *.png *.latex *.pdf *.fasta
 	echo "I kept the CSV files, as these are hard to calculate"
+
+clean_all:
+	rm -f *.png *.latex *.pdf *.fasta *.csv
 
