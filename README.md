@@ -4,11 +4,12 @@ The first sub-question of the Bianchi, Bilderbeek and Bogaart Question.
 
  * :lock: [Full article](https://github.com/richelbilderbeek/bbbq_article)
 
-## Test workflow
+## Workflow
 
- * `make use_test_proteomes`
- * `make`
- * `make results`
+  1. (optional) `make use_test_proteomes`
+  2. `make peregrine` (on Peregrine or local)
+  3. `make results` (on Peregrine or local)
+  4. `make figures` (locally)
 
 ## File structure
 
