@@ -36,7 +36,7 @@ for (i in seq_along(targets)) {
   )
 
   for (protein_id in t_protein_lut$protein_id) {
-    for (haplotype_id in t_haplotype_lut$haplotype_id) {
+    for (haplotype_id in t_haplotype_lut$haplotype_id[c(1,14)]) {
       target_filename <- paste0(
         target, "_", haplotype_id, "_", protein_id, "_counts.csv"
       )
