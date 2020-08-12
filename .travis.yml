@@ -27,11 +27,22 @@ before_install:
 after_install:
   - sudo apt install r-cran-testthat r-cran-stringr r-cran-dplyr r-cran-readr r-cran-knitr r-cran-rcpp
 
-after_script:
+script:
+  - travis_wait 60 R CMD build .
+  - travis_wait 60 R CMD check *tar.gz
   - Rscript -e 'mhcnuggetsr::install_mhcnuggets()'
   - Rscript -e 'pureseqtmr::install_pureseqtm()'
   - ./test.sh
   - if [ ! -f fig_f_tmh_mhc2_grid.png ]; then echo "file 'fig_f_tmh_mhc2_grid.png' not found" ; exit 1 ; fi
+
+after_success:
+  - Rscript -e 'lintr::lint_package()'
+  - Rscript -e 'covr::codecov()'
+  - Rscript -e 'goodpractice::gp()'
+  - Rscript -e 'mhcnuggetsr::mhcnuggetsr_report()'
+  - Rscript -e 'pureseqtmr::pureseqtmr_report()'
+
+after_failure:
   - Rscript -e 'mhcnuggetsr::mhcnuggetsr_report()'
   - Rscript -e 'pureseqtmr::pureseqtmr_report()'
 
