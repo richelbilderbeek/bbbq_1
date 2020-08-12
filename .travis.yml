@@ -28,8 +28,8 @@ after_install:
   - sudo apt install r-cran-testthat r-cran-stringr r-cran-dplyr r-cran-readr r-cran-knitr r-cran-rcpp
 
 after_script:
-  - Rscript -e 'mhcnuggetsr::install_mhcnuggets()
-  - Rscript -e 'pureseqtmr::install_pureseqtm()
+  - Rscript -e 'mhcnuggetsr::install_mhcnuggets()'
+  - Rscript -e 'pureseqtmr::install_pureseqtm()'
   - ./test.sh
   - if [ ! -f fig_f_tmh_mhc2_grid.png ]; then echo "file 'fig_f_tmh_mhc2_grid.png' not found" ; exit 1 ; fi
 
