@@ -28,8 +28,6 @@ after_install:
   - sudo apt install r-cran-testthat r-cran-stringr r-cran-dplyr r-cran-readr r-cran-knitr r-cran-rcpp
 
 after_script:
-  - make use_test_proteomes_and_haplotypes
-  - make peregrine
-  - make figures
+  - ./test.sh
   - if [ ! -f fig_f_tmh_mhc2_grid.png ]; then echo "file 'fig_f_tmh_mhc2_grid.png' not found" ; exit 1 ; fi
 
