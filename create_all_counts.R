@@ -36,7 +36,14 @@ for (i in seq_along(targets)) {
   )
 
   for (protein_id in t_protein_lut$protein_id) {
-    for (haplotype_id in t_haplotype_lut$haplotype_id[c(1,14)]) {
+    for (haplotype_id in t_haplotype_lut$haplotype_id) {
+      if (peregrine::is_on_peregrine() &&
+          haplotype_id != "h1" &&
+          haplotype_id != "h14"
+      ) {
+        next()
+      }
+
       target_filename <- paste0(
         target, "_", haplotype_id, "_", protein_id, "_counts.csv"
       )
