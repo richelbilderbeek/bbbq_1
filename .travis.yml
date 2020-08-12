@@ -32,15 +32,6 @@ after_script:
   - Rscript -e 'pureseqtmr::install_pureseqtm()'
   - ./test.sh
   - if [ ! -f fig_f_tmh_mhc2_grid.png ]; then echo "file 'fig_f_tmh_mhc2_grid.png' not found" ; exit 1 ; fi
-
-after_failure:
-  - Rscript -e 'mhcnuggetsr::mhcnuggetsr_report()'
-  - Rscript -e 'pureseqtmr::pureseqtmr_report()'
-
-after_success:
-  - Rscript -e 'lintr::lint_package()'
-  - Rscript -e 'covr::codecov()'
-  - Rscript -e 'goodpractice::gp()'
   - Rscript -e 'mhcnuggetsr::mhcnuggetsr_report()'
   - Rscript -e 'pureseqtmr::pureseqtmr_report()'
 
