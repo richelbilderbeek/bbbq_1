@@ -17,7 +17,7 @@ t_haplotype_lut <- readr::read_csv(
 
 call_cmd <- NA
 if (peregrine::is_on_peregrine()) {
-  call_cmd <- c("sbatch", "../../peregrine/scripts/run_r_script.sh")
+  call_cmd <- c("sbatch", "run_r_script.sh")
 } else {
   call_cmd <- "Rscript"
 }
