@@ -1,6 +1,11 @@
 # Create all counts
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args) == 0) {
+  targets <- c("covid", "human", "myco")
+} else {
+  targets <- args
+}
 
-targets <- c("covid", "human", "myco")
 haplotype_lut_filename <- "haplotypes_lut.csv"
 protein_lut_filenames <- paste0(targets, "_proteins_lut.csv")
 testthat::expect_true(file.exists(haplotype_lut_filename))
