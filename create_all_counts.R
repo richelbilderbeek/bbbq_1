@@ -59,7 +59,9 @@ for (i in seq_along(targets)) {
           system2(command = cmds[1], args = cmds[-1])
         }
       )
-      Sys.sleep(1)
+      while (peregrine::count_jobs() < 950) {
+        Sys.sleep(60)
+      }
     }
   }
 
