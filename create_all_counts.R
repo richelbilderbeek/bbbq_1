@@ -62,6 +62,7 @@ for (i in seq_along(targets)) {
       while (peregrine::count_jobs() > 950) {
         Sys.sleep(60)
       }
+      Sys.sleep(0.5)
     }
   }
 
