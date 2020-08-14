@@ -47,7 +47,7 @@ for (i in seq_along(targets)) {
         target, "_", haplotype_id, "_", protein_id, "_counts.csv"
       )
       if (file.exists(target_filename)) {
-        message("Filename '", target_filename, "' already exists. Skip")
+        # message("Filename '", target_filename, "' already exists. Skip")
         next()
       }
       cmds <- c(call_cmd, "create_counts.R", target, haplotype_id, protein_id)
@@ -59,7 +59,7 @@ for (i in seq_along(targets)) {
           system2(command = cmds[1], args = cmds[-1])
         }
       )
-      while (peregrine::count_jobs() < 950) {
+      while (peregrine::count_jobs() > 950) {
         Sys.sleep(60)
       }
     }
