@@ -4,6 +4,7 @@ cache: packages
 
 r_github_packages:
   - jtextor/epitope-prediction
+  - richelbilderbeek/epiprepreds
   - richelbilderbeek/mcbette
   - thijsjanzen/nodeSub
   - richelbilderbeek/pirouette
@@ -12,6 +13,8 @@ r_github_packages:
   - richelbilderbeek/pureseqtmr
   - richelbilderbeek/mhcnuggetsr
   - richelbilderbeek/mhcnpreds
+  - richelbilderbeek/netmhc2pan
+  - richelbilderbeek/nmhc2ppreds
   - richelbilderbeek/bbbq
 
 before_install:
@@ -26,6 +29,12 @@ before_install:
  
 after_install:
   - sudo apt install r-cran-testthat r-cran-stringr r-cran-dplyr r-cran-readr r-cran-knitr r-cran-rcpp
+
+before_script:
+  - sudo apt install tcsh
+  - Rscript -e 'mhcnuggetsr::install_mhcnuggets()'
+  - Rscript -e 'pureseqtmr::install_pureseqtm()'
+  - Rscript -e 'netmhc2pan::install_netmhc2pan()'
 
 script:
   - travis_wait 60 R CMD build .
