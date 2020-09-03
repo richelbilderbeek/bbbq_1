@@ -29,7 +29,6 @@ peregrine: haplotypes_lut.csv \
 # Combine all counts into tables and figures
 results: counts.csv \
          table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
-         table_ic50_binders.latex \
          table_f_tmh.latex
 
 # Combine all counts into tables and figures
@@ -104,10 +103,6 @@ table_tmh_binders_mhc2.latex: counts.csv
 ################################################################################
 # Create all LaTeX tables
 ################################################################################
-
-# Easy and general table
-table_ic50_binders.latex: haplotypes_lut.csv
-	Rscript create_table_ic50_binders.R
 
 table_f_tmh.latex:
 	Rscript create_table_f_tmh.R

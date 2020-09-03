@@ -135,3 +135,7 @@ Rscript create_table_tmh_binders_mhc.R mhc1
 Rscript create_table_tmh_binders_mhc.R mhc2
 ```
 
+## Downloads
+
+ * [bbbq_1_20200821.zip](http://richelbilderbeek.nl/bbbq_1_20200821.zip):
+   incomplete results, yet with full logs
