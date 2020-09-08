@@ -56,10 +56,11 @@ peptide_length <- bbbq::get_mhc_peptide_length(
 )
 
 t <- bbbq::predict_counts(
-  peptide = peptide,
+  protein_sequence = peptide,
   haplotype = haplotype,
   peptide_length = peptide_length,
   percentile = bbbq::get_ic50_percentile_binder(),
+  ic50_prediction_tool = "mhcnuggetsr",
   verbose = TRUE
 )
 t$protein_id <- protein_id
