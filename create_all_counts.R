@@ -60,7 +60,7 @@ for (i in seq_along(targets)) {
         }
       )
       if (peregrine::is_on_peregrine()) {
-        while (peregrine::count_jobs() > 950) {
+        while (peregrine::count_vulture_jobs() > 450) {
           Sys.sleep(60)
         }
         Sys.sleep(0.5)
