@@ -1,0 +1,39 @@
+/var/spool/slurmd/job13131952/slurm_script: line 2: /usr/bin/zip: Argument list too long
+
+
+###############################################################################
+Peregrine Cluster
+Job 13131952 for user 'p230198'
+Finished at: Fri Aug 14 09:37:40 CEST 2020
+
+Job details:
+============
+
+Name                : zip.sh
+User                : p230198
+Partition           : regular
+Nodes               : pg-node202
+Cores               : 1
+State               : FAILED
+Submit              : 2020-08-14T09:36:03
+Start               : 2020-08-14T09:37:35
+End                 : 2020-08-14T09:37:39
+Reserved walltime   : 00:30:00
+Used walltime       : 00:00:04
+Used CPU time       : 00:00:01 (efficiency: 42.98%)
+% User (Computation): 84.18%
+% System (I/O)      : 15.76%
+Mem reserved        : 2000M/core
+Max Mem used        : 0.00  (pg-node202)
+Max Disk Write      : 0.00  (pg-node202)
+Max Disk Read       : 0.00  (pg-node202)
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/additional_information/scientific_output
+
+################################################################################

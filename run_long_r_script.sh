@@ -3,16 +3,15 @@
 #
 # Usage:
 #
-#   sbatch run_r_script.sh my_r_script.R
+#   sbatch run_long_r_script.sh my_r_script.R
 #
-#SBATCH --partition=vulture
-#SBATCH --time=9:59:00
+#SBATCH --time=240:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --ntasks=1
 #SBATCH --mem=1G
-#SBATCH --job-name=run_r_script
-#SBATCH --output=run_r_script_%j.log
+#SBATCH --job-name=run_long_r_script
+#SBATCH --output=run_long_r_script_%j.log
 module load R
 echo "Rscript $@"
 Rscript "$@"

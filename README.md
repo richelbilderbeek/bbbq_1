@@ -1,5 +1,10 @@
 # bbbq_1
 
+Branch |[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)                                                                             |[![Codecov logo](pics/Codecov.png)](https://www.codecov.io)
+-------|------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+master |[![Build Status](https://travis-ci.org/richelbilderbeek/bbbq_1.svg?branch=master)](https://travis-ci.org/richelbilderbeek/bbbq_1) |[![codecov.io](https://codecov.io/github/richelbilderbeek/bbbq_1/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/bbbq_1/branch/master)
+develop|[![Build Status](https://travis-ci.org/richelbilderbeek/bbbq_1.svg?branch=develop)](https://travis-ci.org/richelbilderbeek/bbbq_1)|[![codecov.io](https://codecov.io/github/richelbilderbeek/bbbq_1/coverage.svg?branch=develop)](https://codecov.io/github/richelbilderbeek/bbbq_1/branch/develop)
+
 The first sub-question of the Bianchi, Bilderbeek and Bogaart Question.
 
  * :lock: [Full article](https://github.com/richelbilderbeek/bbbq_article)
@@ -130,3 +135,7 @@ Rscript create_table_tmh_binders_mhc.R mhc1
 Rscript create_table_tmh_binders_mhc.R mhc2
 ```
 
+## Downloads
+
+ * [bbbq_1_20200821.zip](http://richelbilderbeek.nl/bbbq_1_20200821.zip):
+   incomplete results, yet with full logs

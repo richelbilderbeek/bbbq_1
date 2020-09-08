@@ -38,7 +38,11 @@ for (i in seq_along(targets)) {
         target, "_", haplotype_id, "_", protein_id, "_counts.csv"
       )
       if (!file.exists(target_filename)) {
+<<<<<<< HEAD
         #message("Filename '", target_filename, "' absent. Ignore")
+=======
+        # message("Filename '", target_filename, "' absent. Ignore")
+>>>>>>> f5d19b0bc856a2600d386511e8dd956e1ba39701
         next()
       }
       t <- readr::read_csv(

@@ -24,12 +24,11 @@ use_test_proteomes_and_haplotypes:
 # Create all counts
 peregrine: haplotypes_lut.csv \
      covid_proteins_lut.csv human_proteins_lut.csv myco_proteins_lut.csv \
-     myco_h21_p3_counts.csv
+     myco_h1_p1_counts.csv
 
 # Combine all counts into tables and figures
 results: counts.csv \
          table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
-         table_ic50_binders.latex \
          table_f_tmh.latex
 
 # Combine all counts into tables and figures
@@ -79,7 +78,7 @@ myco_proteins_lut.csv: myco.fasta
 
 # Local: will run all jobs
 # On Peregrine: will submit max 987 jobs
-myco_h21_p3_counts.csv:
+myco_h1_p1_counts.csv:
 	Rscript create_all_counts.R
 
 ################################################################################
@@ -104,10 +103,6 @@ table_tmh_binders_mhc2.latex: counts.csv
 ################################################################################
 # Create all LaTeX tables
 ################################################################################
-
-# Easy and general table
-table_ic50_binders.latex: haplotypes_lut.csv
-	Rscript create_table_ic50_binders.R
 
 table_f_tmh.latex:
 	Rscript create_table_f_tmh.R
