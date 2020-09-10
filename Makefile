@@ -28,6 +28,8 @@ peregrine: haplotypes_lut.csv \
 
 # Combine all counts into tables and figures
 results: counts.csv \
+         haplotypes_lut.csv \
+         covid_proteins_lut.csv human_proteins_lut.csv myco_proteins_lut.csv \
          table_tmh_binders_mhc1.latex table_tmh_binders_mhc2.latex \
          table_f_tmh.latex
 

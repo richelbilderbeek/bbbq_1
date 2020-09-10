@@ -45,3 +45,4 @@ human_proteins_lut.csv
 myco_proteins_lut.csv
 haplotypes_lut.csv
 counts.csv
+*.zip
